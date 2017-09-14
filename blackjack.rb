@@ -1,4 +1,12 @@
 puts "Hello and welcome to the game of blackjack! Let's begin."
+game_on = true
+
+while game_on
+
+end
+
+
+
 
 def hit_again?
   # loop until you get a good answer and return
