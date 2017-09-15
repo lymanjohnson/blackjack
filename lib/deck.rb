@@ -2,10 +2,11 @@
 
 class Deck
 
-  attr_accessor :cards
+  attr_accessor :cards , :discards
 
   def initialize(size)
     @cards = []
+    @discards = []
     size.times do
       Card::SUITS.each do |suit|
         Card::RANKS.each do |rank|
@@ -19,17 +20,18 @@ class Deck
     @cards.length
   end
 
-  def draw
-    @cards.shift
-  end
+  # def deal_card
+  #   @cards.shift
+  # end
 
-  def put_back(arg)
-    if arg.class == Card
-      @cards.push(arg)
-    elsif arg.class == Array
-      @cards.push(arg).flatten
-    end
-  end
+  # NOTE: only cards or arrays of cards should go in here
+  # def put_back(arg)
+  #   if arg.class == Array
+  #     @cards.push(arg).flatten
+  #   else
+  #     @cards.push(arg)
+  #   end
+  # end
 
   def shuffle
     @cards.shuffle!

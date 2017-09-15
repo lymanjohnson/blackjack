@@ -2,14 +2,32 @@ class Hand
 
   @cards
   @@dealer_score
+  @split_hand
 
   attr_accessor :cards , :score
 
-  def initialize(deck)
-    @cards = []
-    2.times do
-      @cards.push(deck.cards.shift)
+  def initialize(arg)
+    if arg.class == Deck
+      @split_hand = false
+      @cards = []
+      2.times do
+        draw_card_from(arg)
+      end
+
+    elsif arg.class == Hand
+      @split_hand = true
+      @cards = []
+      @cards.push(arg.cards.shift) # => To split a hand, initialize from another hand
     end
+  end
+
+  #
+  def draw_card_from(deck)
+    @cards.push(deck.cards.shift)
+  end
+
+  def discard_hand_into(deck)
+    deck.discards.push(@cards.shift)
   end
 
   def score
@@ -33,6 +51,13 @@ class Hand
         # => otherwise, count one of them as 11 and the rest as 1
         value += 11 + aces_count - 1
       end
+    end
+
+    # Special: determine if it's a blackjack, a bust, or a regular 21
+    if aces_count == 1 && value == 21 && !@split_hand
+      value = :blackjack
+    elsif value > 21
+      value = :bust
     end
     return value
   end
