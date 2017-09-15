@@ -6,12 +6,16 @@ puts "Thick cigarette smoke fills the casino hall, and yet fails to hide the sha
 
 game_on = true
 deck = Deck.new(1)
-puts deck.cards
+deck.shuffle
 puts
-hand = Hand.new(deck)
-puts hand.cards
-puts
-puts deck.cards
+5.times do
+  hand = Hand.new(deck)
+  puts hand.cards
+  puts hand.score
+  puts
+end
+
+
 
 
 while game_on
