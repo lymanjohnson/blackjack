@@ -37,4 +37,48 @@ Game Class
 ----------
 
 Game Loop
-  Initialization
+  - Initialization
+  - Everyone gets a hand
+  - If dealer's top card is ace, dealer offers insurance
+    - loops through players, each decides whether to take insurance
+    - if dealer's hand is blackjack:
+      - 2*player.insurance goes back to each player.money
+      -
+  - Loops through each player calling the Player.my_turn method each time
+  - When Players @turn-over?,
+
+
+
+
+
+-----
+
+Player:
+  @hand [cards]
+  @score (0-21, :blackjack, or :bust)
+  @money ($.$$ USD)
+  @insurance ($.$$ USD)
+  @wager ($.$$ USD)
+  @im_done? (boolean)
+
+  def my_turn
+    while !bust && !blackjack && !@im_done?
+      <special behavior>
+        - hit_me OR set im_done? = true
+    passes to next player
+
+  def insurance
+    <special behavior>
+      - set @insurance between 0 ... @wager
+
+  def hit_me
+    adds a card
+    updates score
+
+Game(number_of_decks,[Players],):
+  @players = [Player]
+  @shoe = [Deck].flatten => [cards]
+  @visible_cards [cards]=> (current cards visible to everyone)
+  @remembered_cards [cards]=> (cards not currently visible but seen since last shuffle)
+  def round_ends
+    (shuffle behavior goes here)

@@ -1,6 +1,5 @@
 puts "Thick cigarette smoke fills the room. It chokes your lungs and yet does little to cut the dry scent of freon coming from above. The haze and gloom masks the faces of your fellow gamblers like two decades on a polaroid. Still, you see some old familiars."
 
-
 # Dougie Jones: Can see the next card and plays accordingly.
 # Eddie O'Shea: Plays too riskily.
 # The Dutchess: Plays like the dealer, has a lot of money and bets big.
