@@ -1,4 +1,4 @@
-require_relative "card"
+# require_relative "card"
 
 class Deck
 
@@ -34,4 +34,6 @@ class Deck
   def shuffle
     @cards.shuffle!
   end
+
+
 end

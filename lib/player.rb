@@ -11,19 +11,15 @@ class Player
   @name
   @behavior
   @flavor_text
+
+  @money
   @hands
   @cards
 
   attr_accessor :cards , :hands
 
   def initialize
-    # if starting_cards.class == Card
-    #   @cards = [arg]
-    # elsif starting_cards.class == Array
-    #   @cards = arg
-    # else
-    #   @cards = []
-    # end
+
   end
 
 end
