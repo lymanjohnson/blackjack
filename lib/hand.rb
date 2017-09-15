@@ -4,7 +4,7 @@ class Hand
   @@dealer_score
   @split_hand
 
-  attr_accessor :cards , :score
+  attr_accessor :cards , :score , :split_hand
 
   def initialize(arg)
     if arg.class == Deck
@@ -15,10 +15,15 @@ class Hand
       end
 
     elsif arg.class == Hand
+      arg.split_hand = true
       @split_hand = true
       @cards = []
       @cards.push(arg.cards.shift) # => To split a hand, initialize from another hand
+
+    elsif arg.class == Array # => Debug, create a hand with any cards
+      @cards = arg
     end
+
   end
 
   #

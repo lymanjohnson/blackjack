@@ -14,11 +14,14 @@ player1 = Player.new(:human)
 player1.new_hand(deck)
 puts "Original hand:"
 puts player1.hands[0].cards
+puts player1.hands[0].score
+puts
 player1.new_hand(player1.hands[0])
 
 player1.hands.each_with_index do |hand,index|
   puts "Hand #{index}:"
   puts hand.cards
+  puts hand.score
   puts
   hand.discard_hand_into(deck)
 end
