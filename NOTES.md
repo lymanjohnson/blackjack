@@ -46,8 +46,11 @@ Game Loop
       -
   - Loops through each player calling the Player.my_turn method each time
     - When player's turn is over it goes onto the next player
-  -
-
+  - Dealer's card and score are announced
+  - Loops through players hands and runs .did_i_win method, comparing hand to the dealer's
+  - payouts are distributed
+  - If player runs out of money the game ends
+  - If an AI player runs out of money they leave the table
 
 Stand: Player stands pat with his cards.
 Hit: Player draws another card (and more if he wishes). If this card causes the player's total points to exceed 21 (known as "breaking" or "busting") then he loses.
@@ -62,6 +65,7 @@ Hand:
   @score (0-21, :blackjack, or :bust)
   @im_done
   @turn_number
+  @split_hand? = false
 
   def initialize
 
@@ -80,12 +84,20 @@ Hand:
         - hit: hit_me, i++
         - double:
         - split:
-    ends turn (which passes to next player)
+    ends loop (which passes to next player)
+
+  def settle
+    compares @score to @@dealer_score
+
 
   def stand
     im_done = true
 
   def hit_me
+
+
+  def decision
+    <this is redefined for each type of player>
 
   def double
     wager = wager*2
@@ -94,19 +106,14 @@ Hand:
   def split
 
 
-    TelepathicHand < Hand
-    CardCountingHand < Hand
-    DealerHand < Hand
-    HumanHand < Hand
+  TelepathicHand < Hand
+  CardCountingHand < Hand
+  DealerHand < Hand
+  HumanHand < Hand
 
 
 Player:
 
-# Dougie Jones: Can telepathically read the next card and plays accordingly.
-# Eddie O'Shea: Plays too riskily.
-# The Duchess: Plays like the dealer, has a lot of money and bets big.
-# Shy Ronnie: Low tolerance.
-# Tam Keebler: Counts cards.
 
   @name
   @hands [Hand] Note: an array of arrays, splitting allows multiple hands

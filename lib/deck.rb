@@ -1,11 +1,16 @@
 require_relative "card"
 
 class Deck
-  def initialize
+
+  attr_accessor :cards
+
+  def initialize(size)
     @cards = []
-    Card::SUITS.each do |suit|
-      Card::RANKS.each do |rank|
-        @cards.push(Card.new(rank, suit))
+    size.times do
+      Card::SUITS.each do |suit|
+        Card::RANKS.each do |rank|
+          @cards.push(Card.new(rank, suit))
+        end
       end
     end
   end

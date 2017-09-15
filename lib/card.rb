@@ -17,3 +17,7 @@ class Card
     self.rank == other.rank && self.suit == other.suit
   end
 end
+
+def to_s
+  "#{self.rank} of #{self.suit}"
+end
