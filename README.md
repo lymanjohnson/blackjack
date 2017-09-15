@@ -56,37 +56,83 @@ Split: If the player has a pair, or any two 10-point cards, then he may double h
 
 ----- CLASSES ------
 
+Hand:
+
+  @cards = [card]  
+  @score (0-21, :blackjack, or :bust)
+  @im_done
+  @turn_number
+
+  def initialize
+
+  def hand_turn
+    i=0
+    while !bust && !blackjack && !@im_done?
+      Determine which choices are possible this round:
+        Stand/Hit (always possible cuz if bust/blackj you won't get to this loop)
+        Double (possible only on first loop)
+        Split (possible if @cards.length==2 and @cards[0] == @cards[1])
+        @cards.length==2 and @cards[0] == @cards[1]
+
+      def turn_choice <special AI behavior or player choice>
+        (select choice from previous list)
+        - stand:
+        - hit: hit_me, i++
+        - double:
+        - split:
+    ends turn (which passes to next player)
+
+  def stand
+    im_done = true
+
+  def hit_me
+
+  def double
+    wager = wager*2
+    im_done = true
+
+  def split
+
+
+    TelepathicHand < Hand
+    CardCountingHand < Hand
+    DealerHand < Hand
+    HumanHand < Hand
+
+
 Player:
+
+# Dougie Jones: Can telepathically read the next card and plays accordingly.
+# Eddie O'Shea: Plays too riskily.
+# The Duchess: Plays like the dealer, has a lot of money and bets big.
+# Shy Ronnie: Low tolerance.
+# Tam Keebler: Counts cards.
+
   @name
   @hands [Hand] Note: an array of arrays, splitting allows multiple hands
-  @score (0-21, :blackjack, or :bust)
+  @behavior = {}
   @money ($.$$ USD)
   @insurance ($.$$ USD)
   @wager ($.$$ USD)
   @im_done? (boolean)
 
-  def my_turn
-    i=0
-    while !bust && !blackjack && !@im_done?
-      Determine which choices are possible this round:
-        Stand (always possible)
-        Hit (always possible cuz if bust/bj you won't get to this loop)
-        Double (possible only on first loop)
-        Split (possible if @hand[j].length==2 and @hand[j][0] == @hand[j][1])
-      <special AI behavior or player choice>
-        - select choice from previous list
-        - stand: im_done = true
-        - hit: hit_me, i++
-        - double: wager = wager*2 , im_done = true
-    ends turn (which passes to next player)
+  def new_hand(hand)
+    hands.push(hand)
+  end
+
+  def initialize(name, money, type)
+    @name = name
+    @money = money
+    new_hand(Hand.new(parent.deck))
+  end
 
   def insurance
-    <special behavior>
-      - set @insurance between 0 ... @wager
+    <special behavior or player input>
+      - set @insurance between 0 ... @wager    
 
-  def hit_me
-    adds a card
-    updates score
+  def player_turn
+    goes through each hand and calls the hand_turn method on each one
+    hand[i].hand_turn() (possibly feed behavior into the method??)
 
 Game(number_of_decks,[Players],):
   @players = [Player]
