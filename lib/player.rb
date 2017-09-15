@@ -1,4 +1,6 @@
 # money values are multiples of the minimum bet
+DEALER = {:name => "Dealer" , :behavior => :dealer , :wager => 0, :money => 0, :flavor_text => ""}
+
 CHARACTERS = [
 {:name => "Dougie Jones" , :behavior => :psychic , :wager => 2, :money => 20, :flavor_text => "A handsome man with dark hair and a sharp looking black suit. Moves slow and doesn't talk much. Loves coffee."},
 {:name => "Eddie O'Shea" , :behvaior => :risky , :wager => 2, :money => 20, :flavor_text => "Always quick with a joke and a laugh. The jokes are often repeated and his laugh seem seems forced, though. He keeps looking over his shoulder."},

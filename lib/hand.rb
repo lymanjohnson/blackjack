@@ -27,7 +27,7 @@ class Hand
   end
 
   def discard_hand_into(deck)
-    deck.discards.push(@cards.shift)
+    deck.discards.push(@cards).flatten
   end
 
   def score

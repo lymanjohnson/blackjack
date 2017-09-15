@@ -7,14 +7,48 @@ puts "Welcome"
 
 game_on = true
 deck = Deck.new(1)
-deck.shuffle
+# deck.shuffle
 
-hand1 = Hand.new(deck)
-puts "Hand 1: #{hand1.cards}"
-hand2 = Hand.new(hand1)
-puts "Hand 1: #{hand1.cards}, Hand 2: #{hand2.cards}"
+player1 = Player.new(:human)
+
+player1.new_hand(deck)
+puts "Original hand:"
+puts player1.hands[0].cards
+player1.new_hand(player1.hands[0])
+
+player1.hands.each_with_index do |hand,index|
+  puts "Hand #{index}:"
+  puts hand.cards
+  puts
+  hand.discard_hand_into(deck)
+end
+
 puts
-puts
+puts "Discards:"
+puts deck.discards
+
+
+# 20.times do
+#   player1.new_hand(deck)
+# end
+#
+# player1.hands.each do |hand|
+#   # puts hand.cards
+#   hand.discard_hand_into(deck)
+# end
+#
+# # puts deck.cards
+# puts deck.discards
+# puts
+
+
+
+# hand1 = Hand.new(deck)
+# puts "Hand 1: #{hand1.cards}"
+# hand2 = Hand.new(hand1)
+# puts "Hand 1: #{hand1.cards}, Hand 2: #{hand2.cards}"
+# puts
+# puts
 # puts "Deck: #{deck.cards}"
 # puts "Discard pile: #{deck.discards}"
 #
