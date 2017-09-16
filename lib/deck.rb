@@ -5,6 +5,7 @@ class Deck
   attr_accessor :cards , :discards
 
   def initialize(size)
+    @@visible_cards = [] # => Cards that are currently face up on the table
     @cards = []
     @discards = []
     size.times do

@@ -1,10 +1,13 @@
 class Hand
 
+  include Comparable
+
   @cards
   @@dealer_score
   @split_hand
 
   attr_accessor :cards , :score , :split_hand
+  SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
 
   def initialize(arg)
     if arg.class == Deck
@@ -65,6 +68,29 @@ class Hand
       value = :bust
     end
     return value
+  end
+
+  # def <=>(another_sock)
+  #   if self.size < another_sock.size
+  #     -1
+  #   elsif self.size > another_sock.size
+  #     1
+  #   else
+  #     0
+  #   end
+  # end
+
+# Comparisons will only be made to the dealer's hand
+  def <=>(other)
+    if SCORE_RANK.index(self.score) > SCORE_RANK.index(other.score)
+      1
+    elsif SCORE_RANK.index(self.score) == SCORE_RANK.index(other.score)
+      0
+    elsif SCORE_RANK.index(self.score) < SCORE_RANK.index(other.score)
+      -1
+    else
+      raise BadScoreError
+    end
   end
 
 end
