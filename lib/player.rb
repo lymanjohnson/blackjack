@@ -38,12 +38,12 @@ class Player
 
   # Pulls two cards from a deck to create a new hand
   def new_hand
-    @hands.push(Hand.new(@@deck))
+    @hands.push(Hand.new(self.object_id))
   end
 
   # Takes one of the player's existing hands and splits it into two
   def split_hand(hand)
-    @hands.push(Hand.new(hand))
+    @hands.push(Hand.new(self.object_id,hand))
   end
 
 end

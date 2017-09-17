@@ -142,7 +142,7 @@ Player:
     hand[i].hand_turn() (possibly feed behavior into the method??)
 
 Game(number_of_decks,[Players],):
-  @players = [Player]
+  @@players = [Player]
   @shoe = [Deck].flatten => [cards]
   @visible_cards [cards]=> (current cards visible to everyone)
   @remembered_cards [cards]=> (cards not currently visible but seen since last shuffle)

@@ -7,11 +7,14 @@ puts "Welcome"
 
 game_on = true
 @@deck = Deck.new(1)
+@@players = []
+
 # deck.shuffle
 
 player1 = Player.new(:human)
+@@players.push(player1)
 
-puts player1.hands
+# puts player1.hands
 
 # player1.new_hand
 # puts "Original hand:"
