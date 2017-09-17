@@ -6,29 +6,31 @@ require 'pry'
 puts "Welcome"
 
 game_on = true
-deck = Deck.new(1)
+@@deck = Deck.new(1)
 # deck.shuffle
 
 player1 = Player.new(:human)
 
-player1.new_hand(deck)
-puts "Original hand:"
-puts player1.hands[0].cards
-puts player1.hands[0].score
-puts
-player1.new_hand(player1.hands[0])
+puts player1.hands
 
-player1.hands.each_with_index do |hand,index|
-  puts "Hand #{index}:"
-  puts hand.cards
-  puts hand.score
-  puts
-  hand.discard_hand_into(deck)
-end
-
-puts
-puts "Discards:"
-puts deck.discards
+# player1.new_hand
+# puts "Original hand:"
+# puts player1.hands[0].cards
+# puts player1.hands[0].score
+# puts
+# player1.new_hand(player1.hands[0])
+#
+# player1.hands.each_with_index do |hand,index|
+#   puts "Hand #{index}:"
+#   puts hand.cards
+#   puts hand.score
+#   puts
+#   hand.discard_hand_into_deck
+# end
+#
+# puts
+# puts "Discards:"
+# puts @@deck.discards
 
 
 # 20.times do

@@ -13,13 +13,6 @@ CHARACTERS = [
 
 class Player
   @@ante_size = 10
-  @name
-  @behavior # => Is this necessary?
-  @flavor_text
-
-  @money
-  @hands
-
   attr_accessor :cards , :hands , :behavior
 
   def initialize(character)
@@ -44,8 +37,8 @@ class Player
   end
 
   # Pulls two cards from a deck to create a new hand
-  def new_hand(deck)
-    @hands.push(Hand.new(deck))
+  def new_hand
+    @hands.push(Hand.new(@@deck))
   end
 
   # Takes one of the player's existing hands and splits it into two
