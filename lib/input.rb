@@ -40,7 +40,13 @@ def q_money
   # loop until you get a good answer and return
   while true
     print "How much money are you bringing to the table?  "
-    answer = Integer(gets.chomp)
+    answer = gets.chomp
+    if answer == ""
+      return 100
+    end
+    # answer = Integer(gets.chomp)
+    answer = answer.to_i
+    puts answer
     # unless answer.is_a?(Numeric)
     #   raise ArgumentError.new("Only numbers are allowed")
     # end
@@ -64,7 +70,7 @@ def q_name
     # unless answer.is_a?(Numeric)
     #   raise ArgumentError.new("Only numbers are allowed")
     # end
-    if answer == nil
+    if answer == ""
       puts "Nice to meet you, Player1"
       return "Player1"
     elsif answer.length > 20

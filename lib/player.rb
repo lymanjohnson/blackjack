@@ -13,7 +13,7 @@ CHARACTERS = [
 
 class Player
   @@ante_size = 10
-  attr_accessor :cards , :hands , :behavior
+  attr_accessor :cards , :hands , :behavior, :money
 
   def initialize(character)
     @hands = []
