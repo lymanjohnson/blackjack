@@ -19,13 +19,13 @@ class Card
 
   # Comparison for splitting purposes
   def <=> (other)
-    if FACE_CARDS.include(self.rank) && FACE_CARDS.include(other.rank)
+    if FACE_CARDS.include?(self.rank) && FACE_CARDS.include?(other.rank)
       0
-    elsif self.rank == other.rank
+    elsif RANKS.index(self.rank) == RANKS.index(other.rank)
       0
-    elsif self.rank > other.rank
+    elsif RANKS.index(self.rank) > RANKS.index(other.rank)
       1
-    elsif self.rank < other.rank
+    elsif RANKS.index(self.rank) < RANKS.index(other.rank)
       -1
     else
       raise BadScoreError

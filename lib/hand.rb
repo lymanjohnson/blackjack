@@ -19,10 +19,10 @@ class Hand
 
     @options = []
     @doubled = false
+    @split_hand = false
     @player_id = player_id
 
     if card_source == nil || card_source == @@deck# => if no arg given, draw from @@deck
-      @split_hand = false
       @cards = []
       2.times do
         draw_card_from_deck
@@ -55,7 +55,7 @@ class Hand
     going = true
     @turn = 1
     while going
-      what_are_my_options # => Determine the options
+      define_options # => Determine the options
       if @options == [:stand] # => If stand is the only option, turn's over
         going = false
       end
@@ -71,8 +71,13 @@ class Hand
 
   end
 
-  def what_are_my_options
+  def define_options
     sibling_count = ObjectSpace._id2ref(player_id).hands.length
+
+    # puts @cards.length
+    # puts @cards[0] == @cards[1]
+    # puts sibling_count
+    puts (@cards.length == 2 && @cards[0] == @cards[1] && sibling_count < 4)
 
     #start with the normal ones
     @options = [:stand, :hit, :double]
@@ -84,7 +89,8 @@ class Hand
 
     #add splitting if appropriate
     if @cards.length == 2 && @cards[0] == @cards[1] && sibling_count < 4
-      @options.push[:split]
+      puts "got here"
+      @options.push(:split)
     end
 
     #turn is over if 21, blackjack, bust, already doubled, or split aces
