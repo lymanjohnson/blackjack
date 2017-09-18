@@ -1,6 +1,8 @@
-Dir["./lib/*.rb"].each {|file| require file}
+# # Dir["./*.rb"].each {|file| require file}
+#
+class Game
 
-Class game
+  # @@deck = Deck.new()
 
 
 

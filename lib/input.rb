@@ -81,3 +81,23 @@ def q_name
     end
   end
 end
+
+def q_split_aces
+  # loop until you get a good answer and return
+  while true
+    print "Do you want to allow re-splitting aces? [Y/N]  "
+    answer = gets.chomp
+    # unless answer.is_a?(Numeric)
+    #   raise ArgumentError.new("Only numbers are allowed")
+    # end
+    if answer == ""
+      puts "Nice to meet you, Player1"
+      return "Player1"
+    elsif answer.length > 20
+      puts "Sorry, your name must be shorter than 20 characters."
+    else
+      puts "Nice to meet you, #{answer}"
+      return answer
+    end
+  end
+end

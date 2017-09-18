@@ -1,3 +1,4 @@
+
 class Hand
 
   include Comparable
@@ -15,35 +16,52 @@ class Hand
   SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
 
 # first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
-  def initialize(player_id, card_source = nil, dealers_hand=false)
-
+  def initialize(card_source = nil, dealers_hand=false)
+    #binding.pry
+    @player_id
     @options = []
     @doubled = false
     @split_hand = false
-    @player_id = player_id
+    #binding.pry
 
-    if card_source == nil || card_source == @@deck# => if no arg given, draw from @@deck
+    if card_source.nil?
+      #binding.pry
       @cards = []
       2.times do
         draw_card_from_deck
       end
+
+    #binding.pry
+
     elsif card_source.class == Hand
-      card_source.split_hand = true
-      @split_hand = true
+      #binding.pry
       @cards = []
       @cards.push(card_source.cards.shift) # => To split a hand, initialize from another hand
+      draw_card_from_deck
+
+    #binding.pry
+
     elsif card_source.class == Array # => Debug, create a hand with any cards
+      #binding.pry
       @cards = card_source
+
     elsif card_source.class == Card
+      #binding.pry
       @cards.push(card_source)
     end
 
+    #binding.pry
+
     if dealers_hand
+      #binding.pry
       @im_the_dealer = true
     else
+      #binding.pry
       @im_the_dealer = false
     end
 
+    @score = score
+    #binding.pry
   end
 
   def hand_turn
@@ -69,14 +87,18 @@ class Hand
 
   def define_options
 
+    # TODO - Doubling/splitting needs to check if player has enough money
+    # Give each hand a .player attribute that is the player's identifier (player1, player2, etc).
+    # access by players.player1.money?
+
     # Find the total number of cards in this player's
-    this_players_hand_count = ObjectSpace._id2ref(player_id).hands.length
+    # this_players_hand_count = ObjectSpace._id2ref().hands.length
 
     #start with the normal ones
     @options = [:stand, :hit, :double]
 
-    #remove doubling if already doubled or already split
-    if @split_hand || @doubled
+    #remove doubling if already doubled, hit or split
+    if @split_hand || @doubled || @cards.length > 2
       @options.delete(:double)
     end
 
@@ -135,6 +157,7 @@ class Hand
 
 # Comparisons will only be made to the dealer's hand
   def <=>(other)
+    #binding.pry
     if SCORE_RANK.index(self.score) > SCORE_RANK.index(other.score)
       1
     elsif SCORE_RANK.index(self.score) == SCORE_RANK.index(other.score)
