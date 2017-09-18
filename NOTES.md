@@ -43,7 +43,7 @@ Game Loop
     - loops through players, each decides whether to take insurance
     - if dealer's hand is blackjack:
       - 2*player.insurance goes back to each player.money
-
+      
   - Loops through each player calling the Player.my_turn method each time
     - When player's turn is over it goes onto the next player
   - Dealer's card and score are announced
@@ -142,7 +142,7 @@ Player:
     hand[i].hand_turn() (possibly feed behavior into the method??)
 
 Game(number_of_decks,[Players],):
-  @@players = [Player]
+  @players = [Player]
   @shoe = [Deck].flatten => [cards]
   @visible_cards [cards]=> (current cards visible to everyone)
   @remembered_cards [cards]=> (cards not currently visible but seen since last shuffle)

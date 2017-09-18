@@ -11,29 +11,31 @@ class Hand
   # @im_the_dealer # => True if this hand belongs to the dealer
 
   attr_accessor :cards , :score , :split_hand, :player_id
+
   SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
 
-# initialize a hand with a second argument "true" to make it the dealer's hand
-  def initialize(player_id, arg = nil, dealers_hand=false)
+# first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
+  def initialize(player_id, card_source = nil, dealers_hand=false)
 
     @options = []
+    @doubled = false
     @player_id = player_id
 
-    if arg == nil # => if no arg given, draw from @@deck
+    if card_source == nil || card_source == @@deck# => if no arg given, draw from @@deck
       @split_hand = false
       @cards = []
       2.times do
         draw_card_from_deck
       end
-
-    elsif arg.class == Hand
-      arg.split_hand = true
+    elsif card_source.class == Hand
+      card_source.split_hand = true
       @split_hand = true
       @cards = []
-      @cards.push(arg.cards.shift) # => To split a hand, initialize from another hand
-
-    elsif arg.class == Array # => Debug, create a hand with any cards
-      @cards = arg
+      @cards.push(card_source.cards.shift) # => To split a hand, initialize from another hand
+    elsif card_source.class == Array # => Debug, create a hand with any cards
+      @cards = card_source
+    elsif card_source.class == Card
+      @cards.push(card_source)
     end
 
     if dealers_hand
@@ -54,7 +56,7 @@ class Hand
     @turn = 1
     while going
       what_are_my_options # => Determine the options
-      if @options == [] # => If there aren't any, turn's over
+      if @options == [:stand] # => If stand is the only option, turn's over
         going = false
       end
       make_decision # => Make the decision based on options avail
@@ -71,14 +73,25 @@ class Hand
 
   def what_are_my_options
     sibling_count = ObjectSpace._id2ref(player_id).hands.length
-    @options = []
-    if @cards.length == 2 && @cards[0] == @cards[1] && @turn == 1 && sibling_count < 4
+
+    #start with the normal ones
+    @options = [:stand, :hit, :double]
+
+    #remove doubling if already doubled or already split
+    if @split_hand || @doubled
+      @options.delete(:double)
+    end
+
+    #add splitting if appropriate
+    if @cards.length == 2 && @cards[0] == @cards[1] && sibling_count < 4
       @options.push[:split]
     end
 
-    if self.score
-
+    #turn is over if 21, blackjack, bust, already doubled, or split aces
+    if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank==:A && @split_hand)
+      @options = [:stand]
     end
+
   end
 
   #
