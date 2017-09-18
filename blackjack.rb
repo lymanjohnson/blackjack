@@ -8,6 +8,6 @@ puts "Welcome"
 game = Game.new
 
 while game.on
-  #binding.pry
-  game.end = false
+  binding.pry
+  game.end
 end

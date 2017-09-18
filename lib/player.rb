@@ -2,15 +2,12 @@ require 'pry'
 
 class Player
 
-  attr_accessor :cards , :hands , :behavior, :money, :player_id
+  attr_accessor :cards , :hands , :behavior, :money, :player_id, :name , :starting_money
 
-  def initialize(character)
+  def initialize(character=nil)
     #binding.pry
     @player_id # Set up by game.rb loop
     @hands = []
-    unless character
-      raise ArgumentError.new("Must feed a character object, :dealer, or :human")
-    end
 
     #binding.pry
     if character.class == Character
@@ -23,14 +20,9 @@ class Player
       @starting_money = @money
       #binding.pry
 
-    elsif character == :human || character == :dealer
+    elsif character == :human
       #binding.pry
       @behavior = character
-      #binding.pry
-
-    else
-      #binding.pry
-      @behavior = :human
       #binding.pry
     end
     #binding.pry
@@ -40,7 +32,7 @@ class Player
     #binding.pry
     @name = q_name(player_id)
     @money = q_money(@name)
-    $starting_money = @money
+    @starting_money = @money
     #binding.pry
   end
 
@@ -60,6 +52,23 @@ class Player
     new_hand.split_hand = true
     @hands.push(new_hand)
     hand.draw_card_from_deck
+  end
+
+  def discard_all_hands
+    @hands.each { |hand| hand.discard_hand_into_deck}
+  end
+
+end
+
+class Dealer < Player
+
+  def initialize
+    super
+    new_hand
+  end
+
+  def new_hand
+    @hands.push(Hand.new(nil,true))
   end
 
 end

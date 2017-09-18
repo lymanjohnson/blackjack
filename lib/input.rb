@@ -1,3 +1,17 @@
+def q_quick_start
+  # loop until you get a good answer and return
+  while true
+    print "Quick start? [y/n]  "
+    answer = gets.chomp.downcase
+    if answer[0] == "y" || answer == ""
+      return true
+    elsif answer[0] == "n"
+      return false
+    end
+    puts "That is not a valid answer!"
+  end
+end
+
 def q_hit_again
   # loop until you get a good answer and return
   while true
@@ -113,7 +127,7 @@ def q_custom_rules
     answer = gets.chomp.downcase
     if answer[0] == "y"
       return true
-    elsif answer[0] == "n"
+    elsif answer[0] == "n" || answer == ""
       return false
     end
     puts "That is not a valid answer!"
@@ -125,7 +139,7 @@ def q_resplit_aces
   while true
     print "Do you want to allow re-splitting aces? [y/n] "
     answer = gets.chomp.downcase
-    if answer[0] == "y"
+    if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
       return false
@@ -139,7 +153,7 @@ def q_double_after_split
   while true
     print "Do you want to allow doubling on a split hand? [y/n] "
     answer = gets.chomp.downcase
-    if answer[0] == "y"
+    if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
       return false
@@ -153,7 +167,7 @@ def q_offer_insurance
   while true
     print "Do you want to allow insurance if dealer's top card is an ace? [y/n] "
     answer = gets.chomp.downcase
-    if answer[0] == "y"
+    if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
       return false

@@ -87,7 +87,7 @@ Hand:
     ends loop (which passes to next player)
 
   def settle
-    compares @score to @@dealer_score
+    compares @score to $dealer_score
 
 
   def stand

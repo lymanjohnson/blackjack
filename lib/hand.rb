@@ -5,7 +5,6 @@ class Hand
 
 
 # ObjectSpace._id2ref(s1.object_id)
-  @@dealer_score = 0 # => The dealer's hand score.
   # @cards          # => Cards that are in this hand
   # @split_hand     # => Is this the original hand I was dealt or is it split?
   # @options = []   # => On this round what can I do?

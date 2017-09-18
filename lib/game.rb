@@ -11,36 +11,42 @@ class Game
     $double_after_split = true
     $offer_insurance = true
     $max_split_hands = 4
-    $number_of_humans = q_number_of_humans
-    $ante_size = q_ante_size
-
-    if q_custom_rules
-      custom_rules
-    end
-
+    $ante_size = 10
+    $number_of_humans = 1
+    $dealer = Dealer.new
     $players = []
+    $quick_start = q_quick_start
 
-    #binding.pry
-    $number_of_humans.times do
-      #binding.pry
+    if $quick_start == false
+      $number_of_humans = q_number_of_humans
+      $ante_size = q_ante_size
+
+      if q_custom_rules
+        custom_rules
+      end
+
+      $number_of_humans.times do
+        add_player(:human)
+        $players[-1].human_properties
+      end
+
+    else
       add_player(:human)
-      #binding.pry
-      $players[-1].human_properties
+      $players[0].name = "Player"
+      $players[0].money = $ante_size*10
+      $players[0].starting_money = $players[-1].money
     end
-    # $dealer = Dealer.new
+
   end
+
+
 
   def add_player(character)
-    #binding.pry
-    newplayer = Player.new(character)
-    #binding.pry
-    newplayer_id = ":player#{($players.length)+1}"
-    #binding.pry
-    newplayer.player_id = newplayer_id.to_sym
-    #binding.pry
-    $players.push(newplayer)
-    #binding.pry
-  end
+        newplayer = Player.new(character)
+        newplayer_id = ":player#{($players.length)+1}"
+        newplayer.player_id = newplayer_id.to_sym
+        $players.push(newplayer)
+      end
 
   def custom_rules
     $resplit_aces = q_resplit_aces
