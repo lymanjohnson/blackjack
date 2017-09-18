@@ -2,6 +2,8 @@ class Hand
 
   include Comparable
 
+
+# ObjectSpace._id2ref(s1.object_id)
   @@dealer_score = 0 # => The dealer's hand score.
   # @cards          # => Cards that are in this hand
   # @split_hand     # => Is this the original hand I was dealt or is it split?
@@ -42,15 +44,20 @@ class Hand
 
   end
 
+  def test_this
+
+  end
+
   def hand_turn
+
     going = true
     @turn = 1
     while going
-      what_are_my_options_this_turn # => Determine the options
+      what_are_my_options # => Determine the options
       if @options == [] # => If there aren't any, turn's over
         going = false
       end
-      make_decision(@options) # => Make the decision based on options avail
+      make_decision # => Make the decision based on options avail
       @turn += 1
       @options = [] # => reset options at the end of the sub_turn
       if @turn >= 100
@@ -62,10 +69,11 @@ class Hand
 
   end
 
-  def what_are_my_options_this_turn
+  def what_are_my_options
+    sibling_count = ObjectSpace._id2ref(player_id).hands.length
     @options = []
-    if @cards.length == 2 && @cards[0] == @cards[1] && @turn == 1 &&
-      @options.push["[S]plit hand"]
+    if @cards.length == 2 && @cards[0] == @cards[1] && @turn == 1 && sibling_count < 4
+      @options.push[:split]
     end
 
     if self.score
