@@ -1,3 +1,8 @@
+class Character
+
+end
+
+
 # # money values are multiples of the minimum bet
 # DEALER = {:name => "Dealer" , :behavior => :dealer , :wager => 0, :money => 0, :flavor_text => ""}
 #

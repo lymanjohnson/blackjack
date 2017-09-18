@@ -1,28 +1,47 @@
+require 'pry'
 
 class Player
-  @@ante_size = 10
+
   attr_accessor :cards , :hands , :behavior, :money, :player_id
 
   def initialize(character)
-    @player_id = :player1 # => TODO Placeholder, change this later!!
+    #binding.pry
+    @player_id # Set up by game.rb loop
     @hands = []
     unless character
-      raise ArgumentError.new("Must feed a character object or :human")
+      raise ArgumentError.new("Must feed a character object, :dealer, or :human")
     end
 
-    if character == :human
-      @name = q_name
-      @money = q_money
-      @behavior = :human
-
-    else
+    #binding.pry
+    if character.class == Character
+      #binding.pry
       @name = character.name
       @behavior = character.behavior
       @flavor_text = character.flavor_text
+      @money = $ante_size*character.money
+      @wager = $ante_size*character.wager
+      @starting_money = @money
+      #binding.pry
 
-      @money = @@ante_size*character.money
-      @wager = @@ante_size*character.wager
+    elsif character == :human || character == :dealer
+      #binding.pry
+      @behavior = character
+      #binding.pry
+
+    else
+      #binding.pry
+      @behavior = :human
+      #binding.pry
     end
+    #binding.pry
+  end
+
+  def human_properties
+    #binding.pry
+    @name = q_name(player_id)
+    @money = q_money(@name)
+    $starting_money = @money
+    #binding.pry
   end
 
   # Pulls two cards from a deck to create a new hand

@@ -17,51 +17,51 @@ class Hand
 
 # first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
   def initialize(card_source = nil, dealers_hand=false)
-    #binding.pry
+    ##binding.pry
     @player_id
     @options = []
     @doubled = false
     @split_hand = false
-    #binding.pry
+    ##binding.pry
 
     if card_source.nil?
-      #binding.pry
+      ##binding.pry
       @cards = []
       2.times do
         draw_card_from_deck
       end
 
-    #binding.pry
+    ##binding.pry
 
     elsif card_source.class == Hand
-      #binding.pry
+      ##binding.pry
       @cards = []
       @cards.push(card_source.cards.shift) # => To split a hand, initialize from another hand
       draw_card_from_deck
 
-    #binding.pry
+    ##binding.pry
 
     elsif card_source.class == Array # => Debug, create a hand with any cards
-      #binding.pry
+      ##binding.pry
       @cards = card_source
 
     elsif card_source.class == Card
-      #binding.pry
+      ##binding.pry
       @cards.push(card_source)
     end
 
-    #binding.pry
+    ##binding.pry
 
     if dealers_hand
-      #binding.pry
+      ##binding.pry
       @im_the_dealer = true
     else
-      #binding.pry
+      ##binding.pry
       @im_the_dealer = false
     end
 
     @score = score
-    #binding.pry
+    ##binding.pry
   end
 
   def hand_turn
@@ -116,11 +116,11 @@ class Hand
 
   #
   def draw_card_from_deck
-    @cards.push(@@deck.cards.shift)
+    @cards.push($deck.cards.shift)
   end
 
   def discard_hand_into_deck
-    @@deck.discards.push(@cards).flatten
+    $deck.discards.push(@cards).flatten
   end
 
   def score
@@ -157,7 +157,7 @@ class Hand
 
 # Comparisons will only be made to the dealer's hand
   def <=>(other)
-    #binding.pry
+    ##binding.pry
     if SCORE_RANK.index(self.score) > SCORE_RANK.index(other.score)
       1
     elsif SCORE_RANK.index(self.score) == SCORE_RANK.index(other.score)
