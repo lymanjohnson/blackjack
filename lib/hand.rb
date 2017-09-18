@@ -46,10 +46,6 @@ class Hand
 
   end
 
-  def test_this
-
-  end
-
   def hand_turn
 
     going = true
@@ -72,12 +68,9 @@ class Hand
   end
 
   def define_options
-    sibling_count = ObjectSpace._id2ref(player_id).hands.length
 
-    # puts @cards.length
-    # puts @cards[0] == @cards[1]
-    # puts sibling_count
-    puts (@cards.length == 2 && @cards[0] == @cards[1] && sibling_count < 4)
+    # Find the total number of cards in this player's
+    this_players_hand_count = ObjectSpace._id2ref(player_id).hands.length
 
     #start with the normal ones
     @options = [:stand, :hit, :double]
@@ -88,8 +81,7 @@ class Hand
     end
 
     #add splitting if appropriate
-    if @cards.length == 2 && @cards[0] == @cards[1] && sibling_count < 4
-      puts "got here"
+    if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4
       @options.push(:split)
     end
 
