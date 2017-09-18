@@ -20,7 +20,9 @@ def q_shoe_size
     # unless answer.is_a?(Number)
     #   raise ArgumentError.new("Only numbers are allowed")
     # end
-    if answer < 0
+    if answer == nil
+      return 1
+    elsif answer < 0
       return -answer
     elsif answer > 5
       puts "That's too many decks"
@@ -44,8 +46,10 @@ def q_money
     # end
     if answer < 100
       puts "You need at least $100 if you're going to have any fun"
-    elsif answer > 10000
-      puts "Any more than $10,000 is irresponsible..."
+      return 100
+    elsif answer > 1000000000
+      puts "Any more than $1 billion is irresponsible..."
+      return 1000000000
     else
       return answer
     end
@@ -60,7 +64,10 @@ def q_name
     # unless answer.is_a?(Numeric)
     #   raise ArgumentError.new("Only numbers are allowed")
     # end
-    if answer.length > 20
+    if answer == nil
+      puts "Nice to meet you, Player1"
+      return "Player1"
+    elsif answer.length > 20
       puts "Sorry, your name must be shorter than 20 characters."
     else
       puts "Nice to meet you, #{answer}"
