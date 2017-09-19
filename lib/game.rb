@@ -68,6 +68,21 @@ class Game
       end
     end
 
+    # Dealer checks for blackjack, revealing if so and paying out insurance as necessary
+    if $dealer.score == :blackjack
+      puts "Dealer hits blackjack! Insurance paid out and round ends."
+      $players.each_with_index do |player, _i|
+        player.money += player.insurance*2
+        puts "#{player.name} gets #{player.insurance*2} back in insurance."
+        player.hands.each do |hand|
+          hand.im_done = true # => There should be only one hand at this point, but just in case...
+          hand.wager = 0  # => To prevent accidental payout later. Might be unnecessary.
+        end
+      end
+    else
+      puts "Dealer does not have blackjack. Play continues..."
+    end
+
     binding.pry
 
     # Then we go around and give each player their turn
@@ -83,7 +98,7 @@ class Game
       player.did_i_win
     end
 
-    # Players and dealer discar their hands
+    # Players and dealer discard their hands
     $dealer.discard_all_hands
     $players.each_with_index do |player, _i|
       player.discard_all_hands

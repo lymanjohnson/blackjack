@@ -123,7 +123,7 @@ class Player
   def reset
     discard_all_hands
     @insurance = 0
-
+  end
 
 end
 
@@ -144,7 +144,8 @@ class Dealer < Player
   end
 
   def my_turn
-    if $dealer_hand.score <
+    # if $dealer_hand.score <
+    # end
   end
 
 end

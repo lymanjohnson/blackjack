@@ -16,11 +16,11 @@ class Hand
   def initialize(card_source = nil, dealers_hand = false)
     # #binding.pry
     @wager = $ante_size # TODO: Make this definable by player
-    @player_id
+    # @player_id
     @options = []
     @doubled = false
     @split_hand = false
-    @im_done
+    # @im_done
     # #binding.pry
 
     if card_source.nil?
@@ -99,10 +99,10 @@ class Hand
     # start with the normal ones
     @options = %i[stand hit double]
 
-    # remove doubling if already doubled, hit or split
+    # remove doubling if out of money or if already doubled, hit, or split
     @options.delete(:double) if @split_hand || @doubled || @cards.length > 2 || @wager > @money
 
-    # add splitting if appropriate
+    # add splitting if appropriate and sufficient money
     if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4 && @money >= @wager
       @options.push(:split)
     end
@@ -111,7 +111,6 @@ class Hand
     if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank == :A && @split_hand)
       @options = [:stand]
     end
-
     @options
   end
 
@@ -165,14 +164,24 @@ class Hand
   # Comparisons will only be made to the dealer's hand
   def <=>(other)
     # #binding.pry
-    if SCORE_RANK.index(score) > SCORE_RANK.index(other.score)
-      1
-    elsif SCORE_RANK.index(score) == SCORE_RANK.index(other.score)
-      0
-    elsif SCORE_RANK.index(score) < SCORE_RANK.index(other.score)
-      -1
-    else
-      raise BadScoreError
+    if other.class == Hand
+      if SCORE_RANK.index(score) > SCORE_RANK.index(other.score)
+        1
+      elsif SCORE_RANK.index(score) == SCORE_RANK.index(other.score)
+        0
+      elsif SCORE_RANK.index(score) < SCORE_RANK.index(other.score)
+        -1
+      end
+      
+    elsif other.class == Integer
+      if SCORE_RANK.index(score) > other
+        1
+      elsif SCORE_RANK.index(score) == other
+        0
+      elsif SCORE_RANK.index(score) < other
+        -1
+      end
+
     end
   end
 end
