@@ -30,10 +30,6 @@ class Card
       raise BadScoreError
     end
   end
-
-  # def ==(other)
-  #   self.rank == other.rank && self.suit == other.suit
-  # end
 end
 
 def to_s

@@ -32,13 +32,7 @@ end
 
 def q_make_decision(options)
   # loop until you get a good answer and return
-  i = 1
   message = ''
-  # "x#{i}".to_sym => :hit
-  # (message += "[#{i}] Hit\n"; i+=1; "x#{i}".to_sym = :hit) if options.include?(:hit)
-  # (message += "[#{i}] Double\n"; i+=1; "x#{i}".to_sym = :double) if options.include?(:double)
-  # (message += "[#{i}] Split\n"; i+=1; "x#{i}".to_sym = :split) if options.include?(:split)
-  # (message += "[#{i}] Stand\n"; i+=1; "x#{i}".to_sym = :stand) if options.include?(:stand)
   message += options.include?(:hit) ? "  [H] Hit\n" : ''
   message += options.include?(:double) ? "  [D] Double\n" : ''
   message += options.include?(:split) ? "  [P] Split\n" : ''
@@ -66,9 +60,6 @@ def q_shoe_size
   loop do
     print 'How many decks do you want to play with? [1-5]  '
     answer = Integer(gets.chomp)
-    # unless answer.is_a?(Number)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer.nil?
       return 1
     elsif answer < 0
@@ -90,11 +81,7 @@ def q_number_of_humans
     print 'How many human players are there? [1-7]  '
     answer = gets.chomp
     return 1 if answer == ''
-    # answer = Integer(gets.chomp)
     answer = answer.to_i
-    # unless answer.is_a?(Numeric)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer > 7
       puts 'The maximum is seven.'
       return 7
@@ -115,10 +102,6 @@ def q_money(name)
     return 10 * $ante_size if answer == ''
     # answer = Integer(gets.chomp)
     answer = answer.to_i
-
-    # unless answer.is_a?(Numeric)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer < $ante_size * 10
       puts "You need at least $#{$ante_size * 10} if you're going to have any fun"
       return $ante_size * 10
@@ -136,9 +119,6 @@ def q_name(player_id)
   loop do
     print "What's your name, #{player_id}?  "
     answer = gets.chomp
-    # unless answer.is_a?(Numeric)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer == ''
       puts "Nice to meet you, #{player_id}."
       return player_id.to_s
@@ -228,10 +208,6 @@ def q_max_split_hands
     return 4 if answer == ''
     # answer = Integer(gets.chomp)
     answer = answer.to_i
-
-    # unless answer.is_a?(Numeric)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer > 4
       puts 'The maximum is 4.'
       return 4
@@ -250,12 +226,7 @@ def q_ante_size
     print "What's the ante size? "
     answer = gets.chomp
     return 10 if answer == ''
-    # answer = Integer(gets.chomp)
     answer = answer.to_i
-
-    # unless answer.is_a?(Numeric)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer > 1000
       puts 'The maximum is 1000.'
       return 4

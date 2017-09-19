@@ -6,7 +6,6 @@ require 'pry'
 puts 'Welcome'
 
 game = Game.new
-# $dealer.hands[0].cards[1] = $dealer.hands[0].cards[0] #to trigger insurance?
 
 while game.on
   binding.pry

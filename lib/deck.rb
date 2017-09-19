@@ -21,20 +21,6 @@ class Deck
     @cards.length
   end
 
-  # def deal_card
-  #   @cards.shift
-  # end
-
-  # NOTE: only cards or arrays of cards should go in here
-  # def put_back(arg)
-  #   if arg.class == Array
-  #     @cards.push(arg).flatten
-  #   else
-  #     @cards.push(arg)
-  #   end
-  # end
-
-
   def shuffle?
     @discards.length*4 > @cards.length
   end

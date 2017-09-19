@@ -7,6 +7,7 @@ Game Class
     - It can be shuffled.
     - Visible cards:
       Array of cards that are visible to everyone at the table that haven't been shuffled back in. Clears when shuffled. Individual players will
+
   * Players:
     - An array of active players, each with their own hands and characteristics. What happens when its their turn, whether you see their cards.
     - Player Attributes:

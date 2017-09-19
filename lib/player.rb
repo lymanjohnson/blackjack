@@ -4,36 +4,26 @@ class Player
   attr_accessor :cards, :hands, :behavior, :money, :player_id, :name, :starting_money
 
   def initialize(character = nil)
-    # binding.pry
-    # @player_id # Set up by game.rb loop
     @hands = []
     @insurance = 0
 
-    # binding.pry
     if character.class == Character
-      # binding.pry
       @name = character.name
       @behavior = character.behavior
       @flavor_text = character.flavor_text
       @money = $ante_size * character.money
       @wager = $ante_size * character.wager
       @starting_money = @money
-      # binding.pry
 
     elsif character == :human
-      # binding.pry
       @behavior = character
-      # binding.pry
     end
-    # binding.pry
   end
 
   def human_properties
-    # binding.pry
     @name = q_name(player_id)
     @money = q_money(@name)
     @starting_money = @money
-    # binding.pry
   end
 
   # Pulls two cards from a deck to create a new hand

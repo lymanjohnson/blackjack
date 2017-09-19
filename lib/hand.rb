@@ -14,86 +14,40 @@ class Hand
 
   # first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
   def initialize(card_source = nil, dealers_hand = false)
-    # #binding.pry
     @wager = $ante_size # TODO: Make this definable by player
-    # @player_id
     @options = []
     @doubled = false
     @split_hand = false
-    # @im_done
-    # #binding.pry
 
     if card_source.nil?
-      # #binding.pry
       @cards = []
       2.times do
         draw_card_from_deck
       end
 
-    # #binding.pry
 
     elsif card_source.class == Hand
-      # #binding.pry
       @cards = []
       @cards.push(card_source.cards.shift) # => To split a hand, initialize from another hand
       draw_card_from_deck
 
-    # #binding.pry
 
     elsif card_source.class == Array # => Debug, create a hand with any cards
-      # #binding.pry
       @cards = card_source
 
     elsif card_source.class == Card
-      # #binding.pry
       @cards.push(card_source)
     end
 
-    # #binding.pry
-
-    @im_the_dealer = if dealers_hand
-                       # #binding.pry
-                       true
-                     else
-                       # #binding.pry
-                       false
-                     end
-    # #binding.pry
+    @im_the_dealer = dealers_hand
   end
 
-  # def hand_turn
-  #
-  #   going = true
-  #   @turn = 1
-  #   while going
-  #     define_options # => Determine the options
-  #     if @options == [:stand] # => If stand is the only option, turn's over
-  #       going = false
-  #     end
-  #     make_decision # => Make the decision based on options avail
-  #     @turn += 1
-  #     @options = [] # => reset options at the end of the sub_turn
-  #     if @turn >= 100
-  #       puts "STUCK ON HAND_TURN"
-  #       going = false
-  #     end
-  #   end
-  #   puts "Turn has ended"
-  #
-  # end
 
   def soft_seventeen?
     @cards.any?{|card| card.rank == :A} && score == 17 && $hit_on_soft_seventeen
   end
 
   def define_options
-    # TODO: - Doubling/splitting needs to check if player has enough money
-    # Give each hand a .player attribute that is the player's identifier (player1, player2, etc).
-    # access by players.player1.money?
-
-    # Find the total number of cards in this player's
-    # this_players_hand_count = ObjectSpace._id2ref().hands.length
-
 
     my_player = $players.find {|player| player.player_id == @player_id }
     @money = my_player.money
@@ -165,7 +119,6 @@ class Hand
 
   # Comparisons will only be made to the dealer's hand, or the dealer's hand to number.
   def <=>(other)
-    # #binding.pry
     if other.class == Hand
       if SCORE_RANK.index(score) > SCORE_RANK.index(other.score)
         1
