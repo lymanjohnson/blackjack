@@ -8,6 +8,5 @@ puts 'Welcome'
 game = Game.new
 
 while game.on
-  binding.pry
   game.play_round
 end

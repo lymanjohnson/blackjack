@@ -38,11 +38,12 @@ class Game
   end
 
   def add_player(character)
+
     newplayer = Player.new(character)
     newplayer_id = ":player#{$players.length + 1}"
     newplayer.player_id = newplayer_id.to_sym
     $players.push(newplayer)
-      end
+  end
 
   def custom_rules
     $resplit_aces = q_resplit_aces
@@ -60,7 +61,7 @@ class Game
 
     # Then deal the dealer
     $dealer.new_hand
-    binding.pry
+
 
     # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?
@@ -85,7 +86,7 @@ class Game
       puts "Dealer does not have blackjack. Play continues..."
     end
 
-    binding.pry
+
 
     # Then we go around and give each player their turn
     $players.each_with_index do |player, _i|
@@ -107,7 +108,7 @@ class Game
     end
 
     # If it's time to shuffle the deck, do so.
-    deck.shuffle if deck.shuffle?
+    $deck.shuffle if $deck.shuffle?
 
     # Ask the player if they'd like to continue
     stop_game unless q_keep_playing

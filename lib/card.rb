@@ -26,8 +26,6 @@ class Card
       1
     elsif RANKS.index(rank) < RANKS.index(other.rank)
       -1
-    else
-      raise BadScoreError
     end
   end
 end

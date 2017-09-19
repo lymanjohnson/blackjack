@@ -145,6 +145,20 @@ def q_custom_rules
   end
 end
 
+def q_keep_playing
+  # loop until you get a good answer and return
+  loop do
+    print 'Do you want to play another hand? [y/n] '
+    answer = gets.chomp.downcase
+    if answer[0] == 'y'
+      return true
+    elsif answer[0] == 'n' || answer == ''
+      return false
+    end
+    puts 'That is not a valid answer!'
+  end
+end
+
 def q_resplit_aces
   # loop until you get a good answer and return
   loop do

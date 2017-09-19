@@ -80,7 +80,7 @@ class Player
   end
 
   def insurance?
-    puts "Does #{name} want insurance? Put down #{@wager/2} to buy insurance. Get #{@wager} back if dealer reveals a blackjack. [y/n]"
+    puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance. Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     if q_insurance
       @insurance = @wager / 2
       @money -= @insurance
@@ -119,9 +119,9 @@ class Player
     @hands.each_with_index do |hand, _i|
       if hand > $dealer_hand
         puts "#{hand} beats dealer's hand!"
-        @money += hand.wager*2
+        @money += hand.wager * 2
         if hand.score == :blackjack
-          puts "Blackjack gets extra money!"
+          puts 'Blackjack gets extra money!'
           @money += hand.wager
         end
       elsif hand == $dealer_hand
@@ -132,7 +132,6 @@ class Player
       end
     end
   end
-
 end
 
 class Dealer < Player
@@ -154,11 +153,13 @@ class Dealer < Player
   def my_turn
     @hands.each do |hand|
       until @im_done
-        if hand.score <= 16 || hand.soft_seventeen?
+
+        if (hand <= 16 || hand.soft_seventeen?) && hand != :bust
           hand.draw_card_from_deck
         else
-          @im_done
+          @im_done = true
         end
+
       end
     end
   end

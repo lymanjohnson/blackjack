@@ -90,6 +90,7 @@ class Hand
       else
         value += card.rank
       end
+      # binding.pry
     end
 
     if aces_count > 0
@@ -117,14 +118,25 @@ class Hand
     s[0...-1]
   end
 
-  # Comparisons will only be made to the dealer's hand, or the dealer's hand to number.
+  # Comparisons can be made between two hands, or between a hand and a raw score
   def <=>(other)
+    my_score = score
     if other.class == Hand
-      if SCORE_RANK.index(score) > SCORE_RANK.index(other.score)
+      other_score = other.score
+      if SCORE_RANK.index(my_score) > SCORE_RANK.index(other_score)
         1
-      elsif SCORE_RANK.index(score) == SCORE_RANK.index(other.score)
+      elsif SCORE_RANK.index(my_score) == SCORE_RANK.index(other_score)
         0
-      elsif SCORE_RANK.index(score) < SCORE_RANK.index(other.score)
+      elsif SCORE_RANK.index(my_score) < SCORE_RANK.index(other_score)
+        -1
+      end
+
+    else #if other.is_a?(Integer) || other.is_a?(Float) || other.is_a?(Symbol)
+      if SCORE_RANK.index(my_score) > SCORE_RANK.index(other)
+        1
+      elsif SCORE_RANK.index(my_score) == SCORE_RANK.index(other)
+        0
+      elsif SCORE_RANK.index(my_score) < SCORE_RANK.index(other)
         -1
       end
     end

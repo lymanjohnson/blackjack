@@ -1,4 +1,6 @@
+ISSUES:
 
+The score method is called every single time someone wants to examine a hand's score, which happens often in the case of comparisons. It's probably safe to leave it like this but it is a (small) waste of memory.
 
 Game Class
   * Shoe Object
