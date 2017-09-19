@@ -9,5 +9,7 @@ game = Game.new
 
 while game.on
   binding.pry
+  # game.dealer_turn
+  # game.players_turn
   game.end
 end

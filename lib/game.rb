@@ -39,8 +39,6 @@ class Game
 
   end
 
-
-
   def add_player(character)
         newplayer = Player.new(character)
         newplayer_id = ":player#{($players.length)+1}"
@@ -53,6 +51,10 @@ class Game
     $double_after_split = q_double_after_split
     $offer_insurance = q_offer_insurance
     $max_split_hands = q_max_split_hands
+  end
+
+  def turn
+
   end
 
   def end

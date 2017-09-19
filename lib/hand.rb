@@ -10,7 +10,7 @@ class Hand
   # @options = []   # => On this round what can I do?
   # @im_the_dealer # => True if this hand belongs to the dealer
 
-  attr_accessor :cards , :score , :split_hand, :player_id
+  attr_accessor :cards , :score , :split_hand, :player_id , :options
 
   SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
 
@@ -152,6 +152,12 @@ class Hand
       value = :bust
     end
     return value
+  end
+
+  def to_s
+    s = " "
+    @cards.each { |card| s += " #{card},"}
+    s[0...-1]
   end
 
 # Comparisons will only be made to the dealer's hand

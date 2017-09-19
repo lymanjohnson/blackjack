@@ -58,6 +58,17 @@ class Player
     @hands.each { |hand| hand.discard_hand_into_deck}
   end
 
+  def make_decision(hand)
+  end
+
+  def my_turn
+    puts "#{@name}'s turn.'"
+    @hands.each {|hand|
+      puts hand
+      make_decision(hand)
+    }
+  end
+
 end
 
 class Dealer < Player
