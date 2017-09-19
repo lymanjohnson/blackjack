@@ -16,7 +16,6 @@ class Game
     $dealer = Dealer.new
     $players = []
     $quick_start = q_quick_start
-    $play_round = play_round
 
     if $quick_start == false
       $number_of_humans = q_number_of_humans
@@ -36,7 +35,7 @@ class Game
       $players[0].name = "Player"
       $players[0].money = $ante_size*10
       $players[0].starting_money = $players[-1].money
-      $players[0].new_hand
+      # $players[0].new_hand
     end
 
   end
@@ -56,7 +55,19 @@ class Game
   end
 
   def play_round
-    # $dealer.new_hand
+
+    # First ask if each player wants to play this round
+    $players.each_with_index do |player,i|
+      if player.money >= $ante_size
+        player.get_dealt
+      end
+    end
+
+    # Then deal the dealer
+    $dealer.new_hand
+    binding.pry
+
+    # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?
       puts "Dealer showing an ace. Do you want insurance?"
       $players.each_with_index do |player,i|
@@ -64,18 +75,41 @@ class Game
       end
     end
 
-    $players.each_with_index do |player,i|
-      if player.money >= $ante_size
-        player.get_dealt
-      end
-    end
+    binding.pry
 
+    # Then we go around and give each player their turn
     $players.each_with_index do |player,i|
       player.my_turn
     end
+
+    # Then the dealer plays his turn
+    $dealer.my_turn
+
+    # Then each player sees how they did and collects winnings if applicable
+    $players.each_with_index do |player,i|
+      player.did_i_win
+    end
+
+    # Players and dealer discar their hands
+    $dealer.discard_all_hands
+    $players.each_with_index do |player,i|
+      player.discard_all_hands
+    end
+
+    # If it's time to shuffle the deck, do so.
+    if deck.shuffle?
+      deck.shuffle
+    end
+
+    # Ask the player if they'd like to continue
+    if !q_keep_playing
+      self.stop_game
+    end
   end
 
-  def end
+  def stop_game
+    puts "You leave the table with $#{money}."
+    puts "Goodbye"
     @on = false
   end
 

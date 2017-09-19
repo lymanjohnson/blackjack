@@ -6,10 +6,9 @@ require 'pry'
 puts "Welcome"
 
 game = Game.new
+# $dealer.hands[0].cards[1] = $dealer.hands[0].cards[0] #to trigger insurance?
 
 while game.on
   binding.pry
-  # game.dealer_turn
-  # game.players_turn
-  game.end
+  game.play_round
 end

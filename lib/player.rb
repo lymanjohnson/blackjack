@@ -83,9 +83,9 @@ class Player
   def get_dealt
     puts "Will #{@name} play this round?'"
     if @money >= $ante_size
-      @wager = q_wager(money)
+      @wager = q_wager(money).to_i
       new_hand
-      hand[-1].wager = @wager
+      hands[-1].wager = @wager
     end
   end
 
@@ -129,7 +129,6 @@ class Dealer < Player
 
   def initialize
     super
-    new_hand
   end
 
   def new_hand
