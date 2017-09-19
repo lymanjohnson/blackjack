@@ -156,9 +156,9 @@ def q_keep_playing
   loop do
     print 'Do you want to play another hand? [y/n] '
     answer = gets.chomp.downcase
-    if answer[0] == 'y'
+    if answer[0] == 'y' || answer == ''
       return true
-    elsif answer[0] == 'n' || answer == ''
+    elsif answer[0] == 'n'
       return false
     end
     puts 'That is not a valid answer!'

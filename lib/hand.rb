@@ -51,6 +51,7 @@ class Hand
 
     my_player = $players.find {|player| player.player_id == @player_id }
     @money = my_player.money
+    @my_players_hand_count = my_player.hands.length
 
     # start with the normal ones
     @options = %i[stand hit double]
@@ -59,7 +60,7 @@ class Hand
     @options.delete(:double) if @split_hand || @doubled || @cards.length > 2 || @wager > @money
 
     # add splitting if appropriate and sufficient money
-    if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4 && @money >= @wager
+    if @cards.length == 2 && @cards[0] == @cards[1] && @my_players_hand_count < 4 && @money >= @wager
       @options.push(:split)
     end
 
@@ -84,6 +85,7 @@ class Hand
     value = 0
     aces_count = 0
     @cards.each do |card|
+      puts card
       if card.rank == :K || card.rank == :Q || card.rank == :J
         value += 10
       elsif card.rank == :A
