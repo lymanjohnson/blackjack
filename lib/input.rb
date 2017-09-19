@@ -179,6 +179,20 @@ def q_resplit_aces
   end
 end
 
+def q_hit_on_soft_seventeen
+  # loop until you get a good answer and return
+  loop do
+    print 'Will the dealer hit on a soft seventeen? [y/n] '
+    answer = gets.chomp.downcase
+    if answer[0] == 'y' || answer == ''
+      return true
+    elsif answer[0] == 'n'
+      return false
+    end
+    puts 'That is not a valid answer!'
+  end
+end
+
 def q_double_after_split
   # loop until you get a good answer and return
   loop do

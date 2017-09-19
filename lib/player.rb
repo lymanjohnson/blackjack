@@ -144,8 +144,13 @@ class Dealer < Player
   end
 
   def my_turn
-    # if $dealer_hand.score <
-    # end
+    until @im_done
+      if hand.score <= 16 || hand.soft_seventeen
+        hand.draw_card_from_deck
+      else
+        @im_done
+      end
+    end
   end
 
 end

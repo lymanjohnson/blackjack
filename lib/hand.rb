@@ -58,8 +58,6 @@ class Hand
                        # #binding.pry
                        false
                      end
-
-    @score = score
     # #binding.pry
   end
 
@@ -83,6 +81,10 @@ class Hand
   #   puts "Turn has ended"
   #
   # end
+
+  def soft_seventeen?
+    @cards.any?{|card| card.rank == :A} && score == 17 && $hit_on_soft_seventeen
+  end
 
   def define_options
     # TODO: - Doubling/splitting needs to check if player has enough money
@@ -108,7 +110,7 @@ class Hand
     end
 
     # turn is over if 21, blackjack, bust, already doubled, or split aces
-    if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank == :A && @split_hand)
+    if score == 21 || score == :blackjack || score == :bust || @doubled || (@cards[0].rank == :A && @split_hand)
       @options = [:stand]
     end
     @options
@@ -161,7 +163,7 @@ class Hand
     s[0...-1]
   end
 
-  # Comparisons will only be made to the dealer's hand
+  # Comparisons will only be made to the dealer's hand, or the dealer's hand to number.
   def <=>(other)
     # #binding.pry
     if other.class == Hand
@@ -172,16 +174,6 @@ class Hand
       elsif SCORE_RANK.index(score) < SCORE_RANK.index(other.score)
         -1
       end
-      
-    elsif other.class == Integer
-      if SCORE_RANK.index(score) > other
-        1
-      elsif SCORE_RANK.index(score) == other
-        0
-      elsif SCORE_RANK.index(score) < other
-        -1
-      end
-
     end
   end
 end

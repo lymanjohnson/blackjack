@@ -7,6 +7,7 @@ class Game
     @on = true
     $deck = Deck.new(1)
     $resplit_aces = true
+    $hit_on_soft_seventeen = true
     $double_after_split = true
     $offer_insurance = true
     $max_split_hands = 4
@@ -48,6 +49,7 @@ class Game
     $double_after_split = q_double_after_split
     $offer_insurance = q_offer_insurance
     $max_split_hands = q_max_split_hands
+    $hit_on_soft_seventeen = q_hit_on_soft_seventeen
   end
 
   def play_round
