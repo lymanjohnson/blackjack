@@ -125,7 +125,7 @@ class Player
           puts 'Blackjack gets extra money!'
           @money += hand.wager
         end
-      elsif hand == $dealer_hand
+      elsif hand == $dealer_hand && hand.score != :bust
         puts "Hand ##{_i} ties against dealer_hand. Wager returned to #{@name}"
         @money += hand.wager
       elsif hand < $dealer_hand
