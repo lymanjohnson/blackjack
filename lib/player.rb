@@ -5,7 +5,7 @@ class Player
 
   def initialize(character = nil)
     # binding.pry
-    @player_id # Set up by game.rb loop
+    # @player_id # Set up by game.rb loop
     @hands = []
     @insurance = 0
 
@@ -83,15 +83,17 @@ class Player
     puts "Will #{@name} play this round?'"
     if @money >= $ante_size
       @wager = q_wager(money).to_i
+      @money -= @wager
       new_hand
       hands[-1].wager = @wager
     end
   end
 
   def insurance?
-    puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance. Get #{@wager} back if dealer reveals a blackjack. [y/n]"
+    puts "Does #{name} want insurance? Put down #{@wager/2} to buy insurance. Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     if q_insurance
       @insurance = @wager / 2
+      @money -= @insurance
       puts 'Insurance purchased.'
     else
       @insurance = 0
@@ -117,6 +119,12 @@ class Player
       puts "\nNext Hand\n\n" unless @hands[i + 1].nil?
     end
   end
+
+  def reset
+    discard_all_hands
+    @insurance = 0
+
+
 end
 
 class Dealer < Player
@@ -125,10 +133,18 @@ class Dealer < Player
   end
 
   def new_hand
-    @hands.push(Hand.new(nil, true))
+    $dealer_hand = Hand.new(nil, true)
+    $hole_card = $dealer_hand[1]
+    $up_card = $dealer_hand[1]
+    @hands.push($dealer_hand)
   end
 
   def insurance?
-    @hands[0].cards[1].rank == :A
+    $up_card == :A
   end
+
+  def my_turn
+    if $dealer_hand.score <
+  end
+
 end

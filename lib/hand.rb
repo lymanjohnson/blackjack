@@ -8,7 +8,7 @@ class Hand
   # @options = []   # => On this round what can I do?
   # @im_the_dealer # => True if this hand belongs to the dealer
 
-  attr_accessor :cards, :score, :split_hand, :player_id, :options, :im_done, :wager
+  attr_accessor :cards, :score, :split_hand, :player_id, :options, :im_done, :wager, :money
 
   SCORE_RANK = [:bust, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, :blackjack].freeze
 
@@ -92,14 +92,18 @@ class Hand
     # Find the total number of cards in this player's
     # this_players_hand_count = ObjectSpace._id2ref().hands.length
 
+
+    my_player = $players.find {|player| player.player_id == @player_id }
+    @money = my_player.money
+
     # start with the normal ones
     @options = %i[stand hit double]
 
     # remove doubling if already doubled, hit or split
-    @options.delete(:double) if @split_hand || @doubled || @cards.length > 2
+    @options.delete(:double) if @split_hand || @doubled || @cards.length > 2 || @wager > @money
 
     # add splitting if appropriate
-    if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4
+    if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4 && @money >= @wager
       @options.push(:split)
     end
 
