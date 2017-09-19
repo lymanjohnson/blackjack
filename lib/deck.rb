@@ -1,8 +1,7 @@
 # require_relative "card"
 
 class Deck
-
-  attr_accessor :cards , :discards
+  attr_accessor :cards, :discards
 
   def initialize(size)
     @visible_cards = [] # => Cards that are currently face up on the table
@@ -37,6 +36,4 @@ class Deck
   def shuffle
     @cards.shuffle!
   end
-
-
 end

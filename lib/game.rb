@@ -1,8 +1,7 @@
 # Dir["./*.rb"].each {|file| require file}
 #
 class Game
-
-  attr_accessor :on , :play_round
+  attr_accessor :on, :play_round
 
   def initialize
     @on = true
@@ -21,9 +20,7 @@ class Game
       $number_of_humans = q_number_of_humans
       $ante_size = q_ante_size
 
-      if q_custom_rules
-        custom_rules
-      end
+      custom_rules if q_custom_rules
 
       $number_of_humans.times do
         add_player(:human)
@@ -32,19 +29,18 @@ class Game
 
     else
       add_player(:human)
-      $players[0].name = "Player"
-      $players[0].money = $ante_size*10
+      $players[0].name = 'Player'
+      $players[0].money = $ante_size * 10
       $players[0].starting_money = $players[-1].money
       # $players[0].new_hand
     end
-
   end
 
   def add_player(character)
-        newplayer = Player.new(character)
-        newplayer_id = ":player#{($players.length)+1}"
-        newplayer.player_id = newplayer_id.to_sym
-        $players.push(newplayer)
+    newplayer = Player.new(character)
+    newplayer_id = ":player#{$players.length + 1}"
+    newplayer.player_id = newplayer_id.to_sym
+    $players.push(newplayer)
       end
 
   def custom_rules
@@ -55,12 +51,9 @@ class Game
   end
 
   def play_round
-
     # First ask if each player wants to play this round
-    $players.each_with_index do |player,i|
-      if player.money >= $ante_size
-        player.get_dealt
-      end
+    $players.each_with_index do |player, _i|
+      player.get_dealt if player.money >= $ante_size
     end
 
     # Then deal the dealer
@@ -69,8 +62,8 @@ class Game
 
     # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?
-      puts "Dealer showing an ace. Do you want insurance?"
-      $players.each_with_index do |player,i|
+      puts 'Dealer showing an ace. Do you want insurance?'
+      $players.each_with_index do |player, _i|
         player.insurance?
       end
     end
@@ -78,7 +71,7 @@ class Game
     binding.pry
 
     # Then we go around and give each player their turn
-    $players.each_with_index do |player,i|
+    $players.each_with_index do |player, _i|
       player.my_turn
     end
 
@@ -86,31 +79,26 @@ class Game
     $dealer.my_turn
 
     # Then each player sees how they did and collects winnings if applicable
-    $players.each_with_index do |player,i|
+    $players.each_with_index do |player, _i|
       player.did_i_win
     end
 
     # Players and dealer discar their hands
     $dealer.discard_all_hands
-    $players.each_with_index do |player,i|
+    $players.each_with_index do |player, _i|
       player.discard_all_hands
     end
 
     # If it's time to shuffle the deck, do so.
-    if deck.shuffle?
-      deck.shuffle
-    end
+    deck.shuffle if deck.shuffle?
 
     # Ask the player if they'd like to continue
-    if !q_keep_playing
-      self.stop_game
-    end
+    stop_game unless q_keep_playing
   end
 
   def stop_game
     puts "You leave the table with $#{money}."
-    puts "Goodbye"
+    puts 'Goodbye'
     @on = false
   end
-
 end

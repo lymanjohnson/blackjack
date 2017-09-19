@@ -1,7 +1,5 @@
 class Character
-
 end
-
 
 # # money values are multiples of the minimum bet
 

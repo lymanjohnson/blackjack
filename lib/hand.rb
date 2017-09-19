@@ -1,68 +1,66 @@
 
 class Hand
-
   include Comparable
 
-
-# ObjectSpace._id2ref(s1.object_id)
+  # ObjectSpace._id2ref(s1.object_id)
   # @cards          # => Cards that are in this hand
   # @split_hand     # => Is this the original hand I was dealt or is it split?
   # @options = []   # => On this round what can I do?
   # @im_the_dealer # => True if this hand belongs to the dealer
 
-  attr_accessor :cards , :score , :split_hand, :player_id , :options , :im_done , :wager
+  attr_accessor :cards, :score, :split_hand, :player_id, :options, :im_done, :wager
 
-  SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
+  SCORE_RANK = [:bust, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, :blackjack].freeze
 
-# first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
-  def initialize(card_source = nil, dealers_hand=false)
-    ##binding.pry
+  # first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
+  def initialize(card_source = nil, dealers_hand = false)
+    # #binding.pry
     @wager = $ante_size # TODO: Make this definable by player
     @player_id
     @options = []
     @doubled = false
     @split_hand = false
     @im_done
-    ##binding.pry
+    # #binding.pry
 
     if card_source.nil?
-      ##binding.pry
+      # #binding.pry
       @cards = []
       2.times do
         draw_card_from_deck
       end
 
-    ##binding.pry
+    # #binding.pry
 
     elsif card_source.class == Hand
-      ##binding.pry
+      # #binding.pry
       @cards = []
       @cards.push(card_source.cards.shift) # => To split a hand, initialize from another hand
       draw_card_from_deck
 
-    ##binding.pry
+    # #binding.pry
 
     elsif card_source.class == Array # => Debug, create a hand with any cards
-      ##binding.pry
+      # #binding.pry
       @cards = card_source
 
     elsif card_source.class == Card
-      ##binding.pry
+      # #binding.pry
       @cards.push(card_source)
     end
 
-    ##binding.pry
+    # #binding.pry
 
-    if dealers_hand
-      ##binding.pry
-      @im_the_dealer = true
-    else
-      ##binding.pry
-      @im_the_dealer = false
-    end
+    @im_the_dealer = if dealers_hand
+                       # #binding.pry
+                       true
+                     else
+                       # #binding.pry
+                       false
+                     end
 
     @score = score
-    ##binding.pry
+    # #binding.pry
   end
 
   # def hand_turn
@@ -87,34 +85,30 @@ class Hand
   # end
 
   def define_options
-
-    # TODO - Doubling/splitting needs to check if player has enough money
+    # TODO: - Doubling/splitting needs to check if player has enough money
     # Give each hand a .player attribute that is the player's identifier (player1, player2, etc).
     # access by players.player1.money?
 
     # Find the total number of cards in this player's
     # this_players_hand_count = ObjectSpace._id2ref().hands.length
 
-    #start with the normal ones
-    @options = [:stand, :hit, :double]
+    # start with the normal ones
+    @options = %i[stand hit double]
 
-    #remove doubling if already doubled, hit or split
-    if @split_hand || @doubled || @cards.length > 2
-      @options.delete(:double)
-    end
+    # remove doubling if already doubled, hit or split
+    @options.delete(:double) if @split_hand || @doubled || @cards.length > 2
 
-    #add splitting if appropriate
+    # add splitting if appropriate
     if @cards.length == 2 && @cards[0] == @cards[1] && this_players_hand_count < 4
       @options.push(:split)
     end
 
-    #turn is over if 21, blackjack, bust, already doubled, or split aces
-    if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank==:A && @split_hand)
+    # turn is over if 21, blackjack, bust, already doubled, or split aces
+    if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank == :A && @split_hand)
       @options = [:stand]
     end
 
     @options
-
   end
 
   #
@@ -141,7 +135,7 @@ class Hand
 
     if aces_count > 0
       # => There is no circumstance under which you'll count more than one ace as 11
-      if (11+(aces_count-1)+value>21) # => If counting one of the aces will put you over 21, don't count any of them as 11
+      if 11 + (aces_count - 1) + value > 21 # => If counting one of the aces will put you over 21, don't count any of them as 11
         value += aces_count
       else
         # => otherwise, count one of them as 11 and the rest as 1
@@ -155,27 +149,26 @@ class Hand
     elsif value > 21
       value = :bust
     end
-    return value
+    value
   end
 
   def to_s
-    s = ""
-    @cards.each { |card| s += " #{card},"}
+    s = ''
+    @cards.each { |card| s += " #{card}," }
     s[0...-1]
   end
 
-# Comparisons will only be made to the dealer's hand
+  # Comparisons will only be made to the dealer's hand
   def <=>(other)
-    ##binding.pry
-    if SCORE_RANK.index(self.score) > SCORE_RANK.index(other.score)
+    # #binding.pry
+    if SCORE_RANK.index(score) > SCORE_RANK.index(other.score)
       1
-    elsif SCORE_RANK.index(self.score) == SCORE_RANK.index(other.score)
+    elsif SCORE_RANK.index(score) == SCORE_RANK.index(other.score)
       0
-    elsif SCORE_RANK.index(self.score) < SCORE_RANK.index(other.score)
+    elsif SCORE_RANK.index(score) < SCORE_RANK.index(other.score)
       -1
     else
       raise BadScoreError
     end
   end
-
 end
