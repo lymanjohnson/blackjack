@@ -71,7 +71,7 @@ class Game
     end
 
     # Dealer checks for blackjack, revealing if so and paying out insurance as necessary
-    if $dealer.score == :blackjack
+    if $dealer_hand.score == :blackjack
       puts "Dealer hits blackjack! Insurance paid out and round ends."
       $players.each_with_index do |player, _i|
         player.money += player.insurance*2

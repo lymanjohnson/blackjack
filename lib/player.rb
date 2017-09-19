@@ -152,23 +152,24 @@ class Dealer < Player
 
   def new_hand
     $dealer_hand = Hand.new(nil, true)
-    $hole_card = $dealer_hand[1]
-    $up_card = $dealer_hand[1]
+    $hole_card = $dealer_hand.cards[1]
+    $up_card = $dealer_hand.cards[1]
     @hands.push($dealer_hand)
   end
 
   def insurance?
-    $up_card == :A
+    $up_card.rank == :A
   end
 
   def my_turn
-    until @im_done
-      if hand.score <= 16 || hand.soft_seventeen
-        hand.draw_card_from_deck
-      else
-        @im_done
+    @hands.each do |hand|
+      until @im_done
+        if hand.score <= 16 || hand.soft_seventeen?
+          hand.draw_card_from_deck
+        else
+          @im_done
+        end
       end
     end
   end
-
 end

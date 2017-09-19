@@ -1,3 +1,5 @@
+
+
 Game Class
   * Shoe Object
     - The big deck that is being used in the game. Array of cards, composed of integer multiples of standard decks.
