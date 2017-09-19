@@ -16,6 +16,7 @@ class Deck
     end
   end
 
+
   def cards_left
     @cards.length
   end
@@ -32,6 +33,11 @@ class Deck
   #     @cards.push(arg)
   #   end
   # end
+
+
+  def shuffle?
+    @discards.length*4 > @cards.length
+  end
 
   def shuffle
     @cards.shuffle!

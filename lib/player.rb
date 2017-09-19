@@ -125,6 +125,24 @@ class Player
     @insurance = 0
   end
 
+  def did_i_win
+    @hands.each_with_index do |hand, _i|
+      if hand > $dealer_hand
+        puts "#{hand} beats dealer's hand!"
+        @money += hand.wager*2
+        if hand.score == :blackjack
+          puts "Blackjack gets extra money!"
+          @money += hand.wager
+        end
+      elsif hand == $dealer_hand
+        puts "Hand ##{_i} ties against dealer_hand. Wager returned to #{@name}"
+        @money += hand.wager
+      elsif hand < $dealer_hand
+        puts "Hand ##{_i} loses."
+      end
+    end
+  end
+
 end
 
 class Dealer < Player
