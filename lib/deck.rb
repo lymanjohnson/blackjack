@@ -26,6 +26,8 @@ class Deck
   end
 
   def shuffle
+    @cards.push(@discards).flatten
+    @discards = []
     @cards.shuffle!
   end
 end

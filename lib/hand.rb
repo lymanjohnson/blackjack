@@ -77,6 +77,7 @@ class Hand
 
   def discard_hand_into_deck
     $deck.discards.push(@cards).flatten
+    @cards = []
   end
 
   def score

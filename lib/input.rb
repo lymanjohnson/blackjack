@@ -15,11 +15,17 @@ end
 def q_wager(total_money)
   loop do
     print "What will you wager this round? Minimum bet is $#{$ante_size}.  "
-    answer = Integer(gets.chomp)
+    answer = gets.chomp
+    if answer == ""
+      puts "You bet $#{$ante_size}"
+      return $ante_size
+    end
+    answer = Integer(answer)
     # unless answer.is_a?(Number)
     #   raise ArgumentError.new("Only numbers are allowed")
     # end
-    if answer.nil? || answer <= $ante_size
+    if answer <= $ante_size
+      puts "You must bet at least #{$ante_size}"
       return $ante_size
     elsif answer > total_money
       puts "You can't bet more than you have."

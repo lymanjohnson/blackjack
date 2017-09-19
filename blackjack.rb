@@ -8,5 +8,6 @@ puts 'Welcome'
 game = Game.new
 
 while game.on
+  $deck.shuffle
   game.play_round
 end

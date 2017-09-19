@@ -14,6 +14,7 @@ class Game
     $ante_size = 10
     $number_of_humans = 1
     $dealer = Dealer.new
+    $dealer.name = "The dealer"
     $players = []
     $quick_start = q_quick_start
 
@@ -115,7 +116,7 @@ class Game
   end
 
   def stop_game
-    puts "You leave the table with $#{money}."
+    puts "You leave the table with $#{@money}."
     puts 'Goodbye'
     @on = false
   end

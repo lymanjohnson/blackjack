@@ -156,6 +156,8 @@ class Dealer < Player
 
         if (hand <= 16 || hand.soft_seventeen?) && hand != :bust
           hand.draw_card_from_deck
+          puts "#{@name} draws #{hand.cards[-1]} from deck."
+          puts "Their score is now #{hand.score}\n"
         else
           @im_done = true
         end
