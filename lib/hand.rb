@@ -10,17 +10,19 @@ class Hand
   # @options = []   # => On this round what can I do?
   # @im_the_dealer # => True if this hand belongs to the dealer
 
-  attr_accessor :cards , :score , :split_hand, :player_id , :options
+  attr_accessor :cards , :score , :split_hand, :player_id , :options , :im_done , :wager
 
   SCORE_RANK = [:bust,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,:blackjack]
 
 # first parameter is object_id of the player whose hand this is (there has to be a better way of doing this), the second arg
   def initialize(card_source = nil, dealers_hand=false)
     ##binding.pry
+    @wager = $ante_size # TODO: Make this definable by player
     @player_id
     @options = []
     @doubled = false
     @split_hand = false
+    @im_done
     ##binding.pry
 
     if card_source.nil?
@@ -63,26 +65,26 @@ class Hand
     ##binding.pry
   end
 
-  def hand_turn
-
-    going = true
-    @turn = 1
-    while going
-      define_options # => Determine the options
-      if @options == [:stand] # => If stand is the only option, turn's over
-        going = false
-      end
-      make_decision # => Make the decision based on options avail
-      @turn += 1
-      @options = [] # => reset options at the end of the sub_turn
-      if @turn >= 100
-        puts "STUCK ON HAND_TURN"
-        going = false
-      end
-    end
-    puts "Turn has ended"
-
-  end
+  # def hand_turn
+  #
+  #   going = true
+  #   @turn = 1
+  #   while going
+  #     define_options # => Determine the options
+  #     if @options == [:stand] # => If stand is the only option, turn's over
+  #       going = false
+  #     end
+  #     make_decision # => Make the decision based on options avail
+  #     @turn += 1
+  #     @options = [] # => reset options at the end of the sub_turn
+  #     if @turn >= 100
+  #       puts "STUCK ON HAND_TURN"
+  #       going = false
+  #     end
+  #   end
+  #   puts "Turn has ended"
+  #
+  # end
 
   def define_options
 
@@ -110,6 +112,8 @@ class Hand
     if @score == 21 || @score == :blackjack || @score == :bust || @doubled || (@cards[0].rank==:A && @split_hand)
       @options = [:stand]
     end
+
+    @options
 
   end
 
@@ -155,7 +159,7 @@ class Hand
   end
 
   def to_s
-    s = " "
+    s = ""
     @cards.each { |card| s += " #{card},"}
     s[0...-1]
   end

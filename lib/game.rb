@@ -2,7 +2,7 @@
 #
 class Game
 
-  attr_accessor :on
+  attr_accessor :on , :play_round
 
   def initialize
     @on = true
@@ -16,6 +16,7 @@ class Game
     $dealer = Dealer.new
     $players = []
     $quick_start = q_quick_start
+    $play_round = play_round
 
     if $quick_start == false
       $number_of_humans = q_number_of_humans
@@ -35,6 +36,7 @@ class Game
       $players[0].name = "Player"
       $players[0].money = $ante_size*10
       $players[0].starting_money = $players[-1].money
+      $players[0].new_hand
     end
 
   end
@@ -53,8 +55,24 @@ class Game
     $max_split_hands = q_max_split_hands
   end
 
-  def turn
+  def play_round
+    # $dealer.new_hand
+    if $dealer.insurance?
+      puts "Dealer showing an ace. Do you want insurance?"
+      $players.each_with_index do |player,i|
+        player.insurance?
+      end
+    end
 
+    $players.each_with_index do |player,i|
+      if player.money >= $ante_size
+        player.get_dealt
+      end
+    end
+
+    $players.each_with_index do |player,i|
+      player.my_turn
+    end
   end
 
   def end

@@ -12,15 +12,50 @@ def q_quick_start
   end
 end
 
-def q_hit_again
-  # loop until you get a good answer and return
+def q_wager(total_money)
   while true
-    print "Do you want to (h)it or (s)tand?  "
+    print "What will you wager this round? Minimum bet is $#{$ante_size}.  "
+    answer = Integer(gets.chomp)
+    # unless answer.is_a?(Number)
+    #   raise ArgumentError.new("Only numbers are allowed")
+    # end
+    if answer == nil || answer <= $ante_size
+      return $ante_size
+    elsif answer > total_money
+      puts "You can't bet more than you have."
+    else
+      return answer
+    end
+    puts "That is not a valid answer!"
+  end
+end
+
+def q_make_decision(options)
+  # loop until you get a good answer and return
+  i = 1
+  message = ""
+  # "x#{i}".to_sym => :hit
+  # (message += "[#{i}] Hit\n"; i+=1; "x#{i}".to_sym = :hit) if options.include?(:hit)
+  # (message += "[#{i}] Double\n"; i+=1; "x#{i}".to_sym = :double) if options.include?(:double)
+  # (message += "[#{i}] Split\n"; i+=1; "x#{i}".to_sym = :split) if options.include?(:split)
+  # (message += "[#{i}] Stand\n"; i+=1; "x#{i}".to_sym = :stand) if options.include?(:stand)
+  options.include?(:hit) ? message += "  [H] Hit\n" : message +=""
+  options.include?(:double) ? message += "  [D] Double\n" : message +=""
+  options.include?(:split) ? message += "  [P] Split\n" : message +=""
+  options.include?(:stand) ? message += "  [T] Stand\n" : message +=""
+
+  while true
+    print message
+    print "What will you do?  "
     answer = gets.chomp.downcase
-    if answer[0] == "h"
-      return true
-    elsif answer[0] == "s"
-      return false
+    if answer[0] == "h" && options.include?(:hit)
+      return :hit
+    elsif answer[0] == "d" && options.include?(:double)
+      return :double
+    elsif answer[0] == "p" && options.include?(:split)
+      return :split
+    elsif answer[0] == "t" && options.include?(:stand)
+      return :stand
     end
     puts "That is not a valid answer!"
   end
@@ -162,10 +197,9 @@ def q_double_after_split
   end
 end
 
-def q_offer_insurance
+def q_insurance
   # loop until you get a good answer and return
   while true
-    print "Do you want to allow insurance if dealer's top card is an ace? [y/n] "
     answer = gets.chomp.downcase
     if answer[0] == "y" || answer == ""
       return true
@@ -201,6 +235,8 @@ def q_max_split_hands
     end
   end
 end
+
+
 
 def q_ante_size
   # loop until you get a good answer and return
