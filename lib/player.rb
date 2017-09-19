@@ -1,7 +1,7 @@
 require 'pry'
 
 class Player
-  attr_accessor :cards, :hands, :behavior, :money, :player_id, :name, :starting_money
+  attr_accessor :cards, :hands, :behavior, :money, :player_id, :name, :starting_money , :insurance
 
   def initialize(character = nil)
     @hands = []

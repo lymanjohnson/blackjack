@@ -3,6 +3,7 @@ def q_quick_start
   loop do
     print 'Quick start? [y/n]  '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -16,6 +17,7 @@ def q_wager(total_money)
   loop do
     print "What will you wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
+    binding.pry
     if answer == ""
       puts "You bet $#{$ante_size}"
       return $ante_size
@@ -48,6 +50,7 @@ def q_make_decision(options)
     print message
     print 'What will you do?  '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'h' && options.include?(:hit)
       return :hit
     elsif answer[0] == 'd' && options.include?(:double)
@@ -66,6 +69,7 @@ def q_shoe_size
   loop do
     print 'How many decks do you want to play with? [1-5]  '
     answer = Integer(gets.chomp)
+    binding.pry
     if answer.nil?
       return 1
     elsif answer < 0
@@ -86,6 +90,7 @@ def q_number_of_humans
   loop do
     print 'How many human players are there? [1-7]  '
     answer = gets.chomp
+    binding.pry
     return 1 if answer == ''
     answer = answer.to_i
     if answer > 7
@@ -104,7 +109,9 @@ def q_money(name)
   # loop until you get a good answer and return
   loop do
     print "How much money are you bringing to the table, #{name}?  "
+
     answer = gets.chomp
+    binding.pry
     return 10 * $ante_size if answer == ''
     # answer = Integer(gets.chomp)
     answer = answer.to_i
@@ -125,6 +132,7 @@ def q_name(player_id)
   loop do
     print "What's your name, #{player_id}?  "
     answer = gets.chomp
+    binding.pry
     if answer == ''
       puts "Nice to meet you, #{player_id}."
       return player_id.to_s
@@ -142,6 +150,7 @@ def q_custom_rules
   loop do
     print 'Do you want to change the house rules? [y/n] '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y'
       return true
     elsif answer[0] == 'n' || answer == ''
@@ -156,6 +165,7 @@ def q_keep_playing
   loop do
     print 'Do you want to play another hand? [y/n] '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -170,6 +180,7 @@ def q_resplit_aces
   loop do
     print 'Do you want to allow re-splitting aces? [y/n] '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -184,6 +195,7 @@ def q_hit_on_soft_seventeen
   loop do
     print 'Will the dealer hit on a soft seventeen? [y/n] '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -198,6 +210,7 @@ def q_double_after_split
   loop do
     print 'Do you want to allow doubling on a split hand? [y/n] '
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -211,6 +224,7 @@ def q_insurance
   # loop until you get a good answer and return
   loop do
     answer = gets.chomp.downcase
+    binding.pry
     if answer[0] == 'y' || answer == ''
       return true
     elsif answer[0] == 'n'
@@ -225,6 +239,7 @@ def q_max_split_hands
   loop do
     print "What's the maximum number of hands a player can hold? [1-4] "
     answer = gets.chomp
+    binding.pry
     return 4 if answer == ''
     # answer = Integer(gets.chomp)
     answer = answer.to_i
@@ -245,6 +260,7 @@ def q_ante_size
   loop do
     print "What's the ante size? "
     answer = gets.chomp
+    binding.pry
     return 10 if answer == ''
     answer = answer.to_i
     if answer > 1000
