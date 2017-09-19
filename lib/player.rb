@@ -46,6 +46,7 @@ class Player
 
   def discard_all_hands
     @hands.each(&:discard_hand_into_deck)
+    @hands=[]
   end
 
   def make_decision(options)

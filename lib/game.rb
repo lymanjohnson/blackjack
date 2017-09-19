@@ -56,18 +56,17 @@ class Game
 
   def play_round
     # First ask if each player wants to play this round
-    $players.each_with_index do |player, _i|
+    $players.each do |player|
       player.get_dealt if player.money >= $ante_size
     end
 
     # Then deal the dealer
     $dealer.new_hand
 
-
     # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?
       puts 'Dealer showing an ace. Do you want insurance?'
-      $players.each_with_index do |player, _i|
+      $players.each do |player|
         player.insurance?
       end
     end
@@ -75,7 +74,7 @@ class Game
     # Dealer checks for blackjack, revealing if so and paying out insurance as necessary
     if $dealer_hand.score == :blackjack
       puts "Dealer hits blackjack! Insurance paid out and round ends."
-      $players.each_with_index do |player, _i|
+      $players.each do |player|
         player.money += player.insurance*2
         puts "#{player.name} gets #{player.insurance*2} back in insurance."
         player.hands.each do |hand|
@@ -87,10 +86,8 @@ class Game
       puts "Dealer does not have blackjack. Play continues..."
     end
 
-
-
     # Then we go around and give each player their turn
-    $players.each_with_index do |player, _i|
+    $players.each do |player|
       player.my_turn
     end
 
@@ -98,13 +95,13 @@ class Game
     $dealer.my_turn
 
     # Then each player sees how they did and collects winnings if applicable
-    $players.each_with_index do |player, _i|
+    $players.each do |player|
       player.did_i_win
     end
 
     # Players and dealer discard their hands
     $dealer.discard_all_hands
-    $players.each_with_index do |player, _i|
+    $players.each do |player|
       player.discard_all_hands
     end
 

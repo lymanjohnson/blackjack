@@ -105,7 +105,7 @@ class Hand
     end
 
     # Special: determine if it's a blackjack, a bust, or a regular 21
-    if aces_count == 1 && value == 21 && !@split_hand
+    if @cards.length == 2 && value == 21 && !@split_hand
       value = :blackjack
     elsif value > 21
       value = :bust

@@ -10,4 +10,5 @@ game = Game.new
 while game.on
   $deck.shuffle
   game.play_round
+  binding.pry
 end
