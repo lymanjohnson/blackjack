@@ -149,7 +149,7 @@ class Dealer < Player
   def new_hand
     $dealer_hand = Hand.new(nil, true)
     $dealer_hand.score = ""
-    $hole_card = $dealer_hand.cards[1]
+    $hole_card = $dealer_hand.cards[0]
     $up_card = $dealer_hand.cards[1]
     @hands.push($dealer_hand)
   end
