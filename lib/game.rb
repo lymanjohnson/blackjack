@@ -17,6 +17,7 @@ class Game
     $dealer.name = "The dealer"
     $players = []
     $discards_visible = true
+    $show_dealers_cards_now = false
   end
 
   def add_rules
@@ -61,6 +62,7 @@ class Game
 
   def play_round
     # First ask if each player wants to play this round
+    $show_dealers_cards_now = false
     status_bar if $game_count > 1
     message = "\nThe dealer is ready to play. "
     message = "\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
@@ -85,7 +87,7 @@ class Game
     if $dealer_hand.score == :blackjack
       puts "Dealer hits blackjack! Insurance paid out and round ends."
       $players.each do |player|
-        player.money += player.insurance*2
+        player.money += player.insurance*3
         puts "#{player.name} gets #{player.insurance*2} back in insurance."
         player.hands.each do |hand|
           hand.im_done = true # => There should be only one hand at this point, but just in case...
@@ -100,6 +102,9 @@ class Game
     $players.each do |player|
       player.my_turn
     end
+
+    $show_dealers_cards_now = true # flag that hole card should be made visible
+    $deck.visible_cards.push($hole_card) # add hole card to the list of visible cards
 
     # Then the dealer plays his turn
     $dealer.my_turn

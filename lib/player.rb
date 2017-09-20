@@ -40,8 +40,10 @@ class Player
     new_hand = Hand.new(hand)
     new_hand.player_id = @player_id
     new_hand.split_hand = true
+    new_hand.wager = hand.wager
     @hands.push(new_hand)
     hand.draw_card_from_deck
+    @money -= hand.wager
   end
 
   def discard_all_hands
@@ -61,6 +63,7 @@ class Player
     elsif choice == :split
       split_hand_of_index(i)
     elsif choice == :double
+      @money -= hand.wager
       hand.wager *= 2
       hand.draw_card_from_deck
       hand.im_done = true
@@ -133,9 +136,9 @@ class Player
         @money += hand.wager * 2
         if hand.score == :blackjack
           puts 'Blackjack gets extra money!'
-          @money += hand.wager
+          @money += hand.wager/2
         end
-      elsif hand == $dealer_hand && hand.score != :bust
+      elsif hand == $dealer_hand && hand.score == :blackjack
         puts "#{possessive} Hand ##{_i+1} ties against the dealer's hand. Wager returned to #{@name}"
         @money += hand.wager
       elsif hand < $dealer_hand

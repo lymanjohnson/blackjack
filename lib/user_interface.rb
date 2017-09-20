@@ -11,6 +11,12 @@ module User_Interface
     line
   end
 
+  def dealer_print(hand)
+    arr = hand.cards.dup
+    arr[0] = "__" if !$show_dealers_cards_now
+    print_array(arr)
+  end
+
   def status_bar
     bar = "Ante-Size: #{$ante_size}\n"
     bar += "Visible Cards: #{print_array($deck.visible_cards)}\n"
@@ -18,7 +24,9 @@ module User_Interface
     bar += '_' * 10
     bar += "\n\n"
     bar += 'DEALER:'
-    bar += "\nHand : #{$dealer_hand}\nScore: #{$dealer_hand.score}\n"
+    bar += "\nHand : #{dealer_print($dealer_hand)}\n"
+    bar += "Score: #{$dealer_hand.score}\n" if $show_dealers_cards_now
+    bar += "Score: ??\n" if !$show_dealers_cards_now
     bar += '_' * 10
     bar += "\n\n"
 
@@ -61,7 +69,7 @@ Press <enter> to continue
       gets
     else
       status_bar
-      puts "You've played #{$game_count} game(s). You have $#{$players[0].money} left.\n\nPress <enter> to continue\n"
+      puts "You've played #{$game_count} game(s).\n\nPress <enter> to continue\n"
       gets
 
       # Ask the player if they'd like to continue

@@ -84,9 +84,7 @@ def q_shoe_size
     if answer == ""
       return 1
     end
-
-    answer = Integer(gets.chomp)
-
+    answer = Integer(answer)
     if answer < 0
       return -answer
     elsif answer > 5

@@ -1,6 +1,11 @@
 ISSUES:
 
-The score method is called every single time someone wants to examine a hand's score, which happens often in the case of comparisons. It's probably safe to leave it like this but it is a (small) waste of memory.
+- The score method is called every single time someone wants to examine a hand's score, which happens often in the case of comparisons. It's probably safe to leave it like this but it is a (small) waste of memory.
+
+- Non blackjack ties on split hands aren't losing like they're supposed to
+
+- Split hands don't seem to be pulling money [fixed?]
+
 
 Game Class
   * Shoe Object
