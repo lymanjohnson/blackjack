@@ -52,7 +52,7 @@ class Player
 #this method exists because Dealer and AI players will
 #overwrite it with their own algorithms
   def make_decision(options,hand_index)
-    q_make_decision(options,hand_index)
+    q_make_decision(options,hand_index,possessive)
   end
 
   def choice_handler(hand, i, choice)
@@ -73,12 +73,11 @@ class Player
   end
 
   def get_dealt
-    message = "The dealer is ready to play. "
-    message = "The deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
+    message = ""
     puts message
     $players.length == 1 ? wants_to_play = true : wants_to_play = q_playing_this_round(@name)
     if @money >= $ante_size && wants_to_play
-      @wager = q_wager(money).to_i
+      @wager = q_wager(name,money).to_i
       @money -= @wager
       new_hand
       hands[-1].wager = @wager
@@ -96,21 +95,28 @@ class Player
     end
   end
 
+  def possessive
+    poss = @name +"'s"
+    poss = "Your" if @name == "you"
+    return poss
+  end
+
   def my_turn
-    @hands.each_with_index do |hand, i|
+
+    @hands.each_with_index do |hand, _i|
       hand.define_options
       until hand.im_done
-        puts "Hand ##{i + 1}: #{hand}"
+        puts "#{possessive} Hand ##{_i+1}: #{hand}"
         # puts "Score: #{hand.score}\t Wager: #{hand.wager}"
-        choice = make_decision(hand.options,i)
-        choice_handler(hand, i, choice)
+        choice = make_decision(hand.options,_i)
+        choice_handler(hand, _i, choice)
         hand.define_options
       end
       status_bar
-      puts "\nDealer hit blackjack!" if $dealer_hand.score == :blackjack
-      puts "\nHand ##{i + 1} Finished \n\nPress <enter> to continue"
+      puts "Dealer hit blackjack!" if $dealer_hand.score == :blackjack
+      puts "#{possessive} Hand ##{_i+1} Finished \n\nPress <enter> to continue"
       gets
-      puts "\nNext Hand\n\n" unless @hands[i + 1].nil?
+      puts "\nNext Hand\n\n" unless @hands[_i + 1].nil?
     end
   end
 
@@ -121,18 +127,19 @@ class Player
 
   def did_i_win
     @hands.each_with_index do |hand, _i|
+      status_bar
       if hand > $dealer_hand
-        puts "Hand ##{_i+1} beats dealer's hand!"
+        puts "#{possessive} Hand ##{_i+1} beats dealer's hand!"
         @money += hand.wager * 2
         if hand.score == :blackjack
           puts 'Blackjack gets extra money!'
           @money += hand.wager
         end
       elsif hand == $dealer_hand && hand.score != :bust
-        puts "Hand ##{_i+1} ties against dealer_hand. Wager returned to #{@name}"
+        puts "#{possessive} Hand ##{_i+1} ties against dealer_hand. Wager returned to #{@name}"
         @money += hand.wager
       elsif hand < $dealer_hand
-        puts "Hand ##{_i+1} loses."
+        puts "#{possessive} Hand ##{_i+1} loses."
       end
       puts "\nPress <enter> to continue."
       gets
@@ -160,10 +167,14 @@ class Dealer < Player
   def my_turn
     @hands.each do |hand|
       until @im_done
-
-        if (hand <= 16 || hand.soft_seventeen?) && hand != :bust
+        if hand == :bust || hand == :blackjack
+          binding.pry
+          @im_done = true
+        elsif (hand <= 16 || hand.soft_seventeen?)
           hand.draw_card_from_deck
           puts "#{@name} draws #{hand.cards[-1]} from deck."
+          puts "\nPress <enter> to continue."
+          gets
           # puts "Their score is now #{hand.score}\n"
         else
           @im_done = true

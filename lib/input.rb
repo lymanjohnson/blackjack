@@ -27,21 +27,21 @@ def q_playing_this_round(name)
 end
 
 
-def q_wager(total_money)
+def q_wager(player_name,total_money)
   # clean
   loop do
-    print "\n\nWhat will you wager this round? Minimum bet is $#{$ante_size}.  "
+    print "\n\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
       puts "\n\nYou bet $#{$ante_size}"
       return $ante_size
     end
     answer = Integer(answer)
-    if answer <= $ante_size
+    if answer < $ante_size
       puts "You must bet at least #{$ante_size}"
       return $ante_size
     elsif answer > total_money
-      puts "You can't bet more than you have."
+      puts "You can't bet more than you have. (You have #{total_money})"
     else
       return answer
     end
@@ -49,9 +49,9 @@ def q_wager(total_money)
   end
 end
 
-def q_make_decision(options,hand_index)
+def q_make_decision(options,hand_index,possessive)
   status_bar
-    message = "Hand #{hand_index + 1}:\n"
+    message = "#{possessive} Hand #{hand_index + 1}:\n"
   message += options.include?(:hit) ? "  [H] Hit\n" : ""
   message += options.include?(:double) ? "  [D] Double\n" : ""
   message += options.include?(:split) ? "  [P] Split\n" : ""
@@ -80,11 +80,14 @@ def q_shoe_size
   clean
     loop do
     print "How many decks do you want to play with? [1-5]  "
+    answer = gets.chomp
+    if answer == ""
+      return 1
+    end
+
     answer = Integer(gets.chomp)
 
-    if answer.nil?
-      return 1
-    elsif answer < 0
+    if answer < 0
       return -answer
     elsif answer > 5
       puts "\n\nThat's too many decks."
@@ -142,18 +145,16 @@ end
 def q_name(player_id)
   clean
     loop do
-    print "What's your name, #{player_id}?  "
+    print "What's your name, #{player_id.to_s.capitalize.tr(":","")}?  "
     answer = gets.chomp
-
-    if answer == ""
-      puts "\n\nNice to meet you, #{player_id}."
-      return player_id.to_s
-    elsif answer.length > 20
-      puts "\n\nSorry, your name must be shorter than 20 characters."
-    else
-      puts "\n\nNice to meet you, #{answer}."
-      return answer
-    end
+      if answer.length > 20
+        puts "\n\nSorry, your name must be shorter than 20 characters."
+      elsif answer == ""
+        return player_id.to_s.capitalize.tr(":","")
+      else
+        puts "\n\nNice to meet you, #{answer}."
+        return answer
+      end
   end
 end
 
@@ -232,6 +233,22 @@ def q_double_after_split
   end
 end
 
+#Note: This sets the rules regarding insurance, it doesn't ask if the player wants insurance this round.
+def q_offer_insurance
+  clean
+    loop do
+    print "Do you want to offer insurance if dealer shows an ace? [y/n] "
+    answer = gets.chomp.downcase
+
+    if answer[0] == "y" || answer == ""
+      return true
+    elsif answer[0] == "n"
+      return false
+    end
+    puts "\n\nThat is not a valid answer!"
+  end
+end
+
 def q_discards_visible
   clean
     loop do
@@ -247,6 +264,7 @@ def q_discards_visible
   end
 end
 
+#Note: this asks if the player wants insurance this round, not whether insurance should be allowed in the rules.
 def q_insurance(name,wager)
   status_bar
   puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance.

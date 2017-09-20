@@ -24,8 +24,6 @@ class Game
 
     if $quick_start == false
       $number_of_humans = q_number_of_humans
-      $ante_size = q_ante_size
-
       custom_rules if q_custom_rules
 
       $number_of_humans.times do
@@ -52,6 +50,7 @@ class Game
 
   def custom_rules
     $deck = Deck.new(q_shoe_size)
+    $ante_size = q_ante_size
     $resplit_aces = q_resplit_aces
     $double_after_split = q_double_after_split
     $offer_insurance = q_offer_insurance
@@ -63,6 +62,10 @@ class Game
   def play_round
     # First ask if each player wants to play this round
     # status_bar
+    message = "\n\nThe dealer is ready to play. "
+    message = "\n\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
+    puts message
+
     $players.each do |player|
       player.get_dealt if player.money >= $ante_size
     end
