@@ -8,7 +8,10 @@ $game_count = 0
 welcome
 $game.add_rules
 $deck.shuffle
-
+robot_mike = Roboplayer.new
+robot_mike.name = "Robot Mike"
+robot_mike.money = $ante_size*10
+$players.unshift(robot_mike)
 
 while $game.on
   $game_count+=1
