@@ -152,23 +152,7 @@ class Player
   end
 end
 
-class Dealer < Player
-  def initialize
-    super
-  end
-
-  def new_hand
-    $dealer_hand = Hand.new(nil, true)
-    $dealer_hand.score = ""
-    $hole_card = $dealer_hand.cards[0]
-    $up_card = $dealer_hand.cards[1]
-    @hands.push($dealer_hand)
-    @im_done = false
-  end
-
-  def insurance?
-    $up_card.rank == :A
-  end
+class Roboplayer < Player
 
   def my_turn
     @hands.each do |hand|
@@ -204,8 +188,66 @@ class Dealer < Player
           gets
           @im_done = true
         end
-
       end
     end
   end
+
+end
+
+class Dealer < Roboplayer
+  # def initialize
+  #   super
+  # end
+
+  def new_hand
+    $dealer_hand = Hand.new(nil, true)
+    $dealer_hand.score = ""
+    $hole_card = $dealer_hand.cards[0]
+    $up_card = $dealer_hand.cards[1]
+    @hands.push($dealer_hand)
+    @im_done = false
+  end
+
+  def insurance?
+    $up_card.rank == :A
+  end
+
+  # def my_turn
+  #   @hands.each do |hand|
+  #     # binding.pry
+  #     until @im_done
+  #       status_bar
+  #       if hand.score == :bust
+  #         # binding.pry
+  #         puts "#{@name} busts."
+  #         puts "\nPress <enter> to continue."
+  #         gets
+  #         @im_done = true
+  #       elsif hand.score == :blackjack
+  #         puts "#{@name} finishes with blackjack."
+  #         puts "\nPress <enter> to continue."
+  #         gets
+  #         @im_done = true
+  #       elsif (hand.score <= 16 || hand.soft_seventeen?)
+  #         # binding.pry
+  #         hand.draw_card_from_deck
+  #         puts "#{@name} draws #{hand.cards[-1]} from deck."
+  #         puts "\nPress <enter> to continue."
+  #         gets
+  #         # puts "Their score is now #{hand.score}\n"
+  #       else
+  #         # binding.pry
+  #         if hand.soft_seventeen?
+  #           "#{@name} finishes with a hard seventeen."
+  #         else
+  #           puts "#{@name} finishes with a #{hand.score}."
+  #         end
+  #         puts "\nPress <enter> to continue."
+  #         gets
+  #         @im_done = true
+  #       end
+  #
+  #     end
+  #   end
+  # end
 end
