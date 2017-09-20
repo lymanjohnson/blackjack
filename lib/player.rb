@@ -108,9 +108,7 @@ class Player
       end
       status_bar
       puts "\nDealer hit blackjack!" if $dealer_hand.score == :blackjack
-      puts "\nHand ##{i + 1} Finished"
-      # puts "Hand ##{i + 1}: #{hand} Results"
-      # puts "Score: #{hand.score}\t Wager: #{hand.wager}"
+      puts "\nHand ##{i + 1} Finished \n\nPress <enter> to continue"
       gets
       puts "\nNext Hand\n\n" unless @hands[i + 1].nil?
     end
@@ -124,18 +122,20 @@ class Player
   def did_i_win
     @hands.each_with_index do |hand, _i|
       if hand > $dealer_hand
-        puts "#{hand} beats dealer's hand!"
+        puts "Hand ##{_i+1} beats dealer's hand!"
         @money += hand.wager * 2
         if hand.score == :blackjack
           puts 'Blackjack gets extra money!'
           @money += hand.wager
         end
       elsif hand == $dealer_hand && hand.score != :bust
-        puts "Hand ##{_i} ties against dealer_hand. Wager returned to #{@name}"
+        puts "Hand ##{_i+1} ties against dealer_hand. Wager returned to #{@name}"
         @money += hand.wager
       elsif hand < $dealer_hand
-        puts "Hand ##{_i} loses."
+        puts "Hand ##{_i+1} loses."
       end
+      puts "\nPress <enter> to continue."
+      gets
     end
   end
 end

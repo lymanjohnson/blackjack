@@ -66,7 +66,7 @@ Press <enter> to continue
       gets
 
       # Ask the player if they'd like to continue
-      stop_game unless q_keep_playing
+      $game.stop_game unless q_keep_playing
 
     end
   end

@@ -175,7 +175,7 @@ end
 def q_keep_playing
   status_bar
     loop do
-    print "Do you want to play another hand? [y/n] "
+    print "\n\nDo you want to play another hand? [y/n] "
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""
@@ -221,6 +221,21 @@ def q_double_after_split
   clean
     loop do
     print "Do you want to allow doubling on a split hand? [y/n] "
+    answer = gets.chomp.downcase
+
+    if answer[0] == "y" || answer == ""
+      return true
+    elsif answer[0] == "n"
+      return false
+    end
+    puts "\n\nThat is not a valid answer!"
+  end
+end
+
+def q_discards_visible
+  clean
+    loop do
+    print "Do you want help remembering what's in the discard pile? [y/n] "
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""

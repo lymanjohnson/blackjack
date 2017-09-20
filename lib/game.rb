@@ -1,7 +1,7 @@
 # Dir["./*.rb"].each {|file| require file}
 #
 class Game
-  attr_accessor :on, :play_round
+  attr_accessor :on, :play_round , :stop_game
 
   def initialize
     @on = true
