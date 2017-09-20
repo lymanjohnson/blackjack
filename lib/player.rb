@@ -49,8 +49,10 @@ class Player
     @hands=[]
   end
 
-  def make_decision(options)
-    q_make_decision(options)
+#this method exists because Dealer and AI players will
+#overwrite it with their own algorithms
+  def make_decision(options,hand_index)
+    q_make_decision(options,hand_index)
   end
 
   def choice_handler(hand, i, choice)
@@ -71,12 +73,11 @@ class Player
   end
 
   def get_dealt
-    #clean
     message = "The dealer is ready to play. "
     message = "The deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
     puts message
-    puts "\nWill #{@name} be playing this round?"
-    if @money >= $ante_size
+    $players.length == 1 ? wants_to_play = true : wants_to_play = q_playing_this_round(@name)
+    if @money >= $ante_size && wants_to_play
       @wager = q_wager(money).to_i
       @money -= @wager
       new_hand
@@ -101,15 +102,16 @@ class Player
       hand.define_options
       until hand.im_done
         puts "Hand ##{i + 1}: #{hand}"
-        puts "Score: #{hand.score}\t Wager: #{hand.wager}"
-        choice = make_decision(hand.options)
+        # puts "Score: #{hand.score}\t Wager: #{hand.wager}"
+        choice = make_decision(hand.options,i)
         choice_handler(hand, i, choice)
         hand.define_options
       end
-
-      puts "\nHand Finished"
-      puts "Hand ##{i + 1}: #{hand} Results"
-      puts "Score: #{hand.score}\t Wager: #{hand.wager}"
+      status_bar
+      puts "\nDealer hit blackjack!" if $dealer_hand.score == :blackjack
+      puts "\nHand ##{i + 1} Finished"
+      # puts "Hand ##{i + 1}: #{hand} Results"
+      # puts "Score: #{hand.score}\t Wager: #{hand.wager}"
       gets
       puts "\nNext Hand\n\n" unless @hands[i + 1].nil?
     end
@@ -146,6 +148,7 @@ class Dealer < Player
 
   def new_hand
     $dealer_hand = Hand.new(nil, true)
+    $dealer_hand.score = ""
     $hole_card = $dealer_hand.cards[1]
     $up_card = $dealer_hand.cards[1]
     @hands.push($dealer_hand)
@@ -162,7 +165,7 @@ class Dealer < Player
         if (hand <= 16 || hand.soft_seventeen?) && hand != :bust
           hand.draw_card_from_deck
           puts "#{@name} draws #{hand.cards[-1]} from deck."
-          puts "Their score is now #{hand.score}\n"
+          # puts "Their score is now #{hand.score}\n"
         else
           @im_done = true
         end

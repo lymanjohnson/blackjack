@@ -4,7 +4,6 @@ class Game
   attr_accessor :on, :play_round
 
   def initialize
-
     @on = true
     $deck = Deck.new(1)
     $resplit_aces = true
@@ -17,6 +16,10 @@ class Game
     $dealer = Dealer.new
     $dealer.name = "The dealer"
     $players = []
+    $discards_visible = true
+  end
+
+  def add_rules
     $quick_start = q_quick_start
 
     if $quick_start == false
@@ -48,15 +51,18 @@ class Game
   end
 
   def custom_rules
+    $deck = Deck.new(q_shoe_size)
     $resplit_aces = q_resplit_aces
     $double_after_split = q_double_after_split
     $offer_insurance = q_offer_insurance
     $max_split_hands = q_max_split_hands
     $hit_on_soft_seventeen = q_hit_on_soft_seventeen
+    $discards_visible = q_discards_visible
   end
 
   def play_round
     # First ask if each player wants to play this round
+    # status_bar
     $players.each do |player|
       player.get_dealt if player.money >= $ante_size
     end
@@ -83,7 +89,7 @@ class Game
           hand.wager = 0  # => To prevent accidental payout later. Might be unnecessary.
         end
       end
-    else
+    elsif $dealer_hand.score != :blackjack && $dealer.insurance?
       puts "Dealer does not have blackjack. Play continues..."
     end
 
@@ -109,8 +115,7 @@ class Game
     # If it's time to shuffle the deck, do so.
     $deck.shuffle if $deck.shuffle?
 
-    # Ask the player if they'd like to continue
-    stop_game unless q_keep_playing
+
   end
 
   def stop_game

@@ -94,7 +94,7 @@ class Hand
       else
         value += card.rank
       end
-      # binding.pry
+      # #binding.pry
     end
 
     if aces_count > 0
@@ -118,7 +118,7 @@ class Hand
 
   def to_s
     s = ''
-    @cards.each { |card| s += " #{card} |" }
+    @cards.each { |card| s += " #{card} " }
     s[0...-1]
   end
 

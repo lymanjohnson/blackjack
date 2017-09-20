@@ -1,33 +1,42 @@
 def q_quick_start
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "\n\nQuick start? [y/n]  "
     answer = gets.chomp.downcase
-    #binding.pry
     if answer[0] == "y" || answer == ""
-      #clean
       return true
     elsif answer[0] == "n"
-      #clean
       return false
     end
     puts "\n\nThat is not a valid answer!"
   end
 end
 
+def q_playing_this_round(name)
+  # clean
+    loop do
+    print "\n\nWill #{name} be playing this round? [y/n]  "
+    answer = gets.chomp.downcase
+    if answer[0] == "y" || answer == ""
+      return true
+    elsif answer[0] == "n"
+      return false
+    end
+    puts "\n\nThat is not a valid answer!"
+  end
+end
+
+
 def q_wager(total_money)
+  # clean
   loop do
     print "\n\nWhat will you wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
-    #binding.pry
     if answer == ""
       puts "\n\nYou bet $#{$ante_size}"
       return $ante_size
     end
     answer = Integer(answer)
-    # unless answer.is_a?(Number)
-    #   raise ArgumentError.new("Only numbers are allowed")
-    # end
     if answer <= $ante_size
       puts "You must bet at least #{$ante_size}"
       return $ante_size
@@ -40,9 +49,9 @@ def q_wager(total_money)
   end
 end
 
-def q_make_decision(options)
-  # loop until you get a good answer and return
-  message = ""
+def q_make_decision(options,hand_index)
+  status_bar
+    message = "Hand #{hand_index + 1}:\n"
   message += options.include?(:hit) ? "  [H] Hit\n" : ""
   message += options.include?(:double) ? "  [D] Double\n" : ""
   message += options.include?(:split) ? "  [P] Split\n" : ""
@@ -50,9 +59,10 @@ def q_make_decision(options)
 
   loop do
     print message
-    print "What will you do?  "
+    print "\nWhat will you do?  "
+
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "h" && options.include?(:hit)
       return :hit
     elsif answer[0] == "d" && options.include?(:double)
@@ -67,11 +77,11 @@ def q_make_decision(options)
 end
 
 def q_shoe_size
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "How many decks do you want to play with? [1-5]  "
     answer = Integer(gets.chomp)
-    #binding.pry
+
     if answer.nil?
       return 1
     elsif answer < 0
@@ -88,11 +98,11 @@ def q_shoe_size
 end
 
 def q_number_of_humans
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "How many human players are there? [1-7]  "
     answer = gets.chomp
-    #binding.pry
+
     return 1 if answer == ""
     answer = answer.to_i
     if answer > 7
@@ -108,12 +118,12 @@ def q_number_of_humans
 end
 
 def q_money(name)
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "How much money are you bringing to the table, #{name}?  "
 
     answer = gets.chomp
-    #binding.pry
+
     return 10 * $ante_size if answer == ""
     # answer = Integer(gets.chomp)
     answer = answer.to_i
@@ -130,11 +140,11 @@ def q_money(name)
 end
 
 def q_name(player_id)
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "What's your name, #{player_id}?  "
     answer = gets.chomp
-    #binding.pry
+
     if answer == ""
       puts "\n\nNice to meet you, #{player_id}."
       return player_id.to_s
@@ -148,11 +158,11 @@ def q_name(player_id)
 end
 
 def q_custom_rules
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "Do you want to change the house rules? [y/n] "
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y"
       return true
     elsif answer[0] == "n" || answer == ""
@@ -163,11 +173,11 @@ def q_custom_rules
 end
 
 def q_keep_playing
-  # loop until you get a good answer and return
-  loop do
+  status_bar
+    loop do
     print "Do you want to play another hand? [y/n] "
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
@@ -178,11 +188,11 @@ def q_keep_playing
 end
 
 def q_resplit_aces
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "Do you want to allow re-splitting aces? [y/n] "
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
@@ -193,11 +203,11 @@ def q_resplit_aces
 end
 
 def q_hit_on_soft_seventeen
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "Will the dealer hit on a soft seventeen? [y/n] "
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
@@ -208,11 +218,11 @@ def q_hit_on_soft_seventeen
 end
 
 def q_double_after_split
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "Do you want to allow doubling on a split hand? [y/n] "
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
@@ -223,10 +233,10 @@ def q_double_after_split
 end
 
 def q_insurance
-  # loop until you get a good answer and return
-  loop do
+  status_bar
+    loop do
     answer = gets.chomp.downcase
-    #binding.pry
+
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
@@ -237,11 +247,11 @@ def q_insurance
 end
 
 def q_max_split_hands
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "What's the maximum number of hands a player can hold? [1-4] "
     answer = gets.chomp
-    #binding.pry
+
     return 4 if answer == ""
     # answer = Integer(gets.chomp)
     answer = answer.to_i
@@ -258,11 +268,11 @@ def q_max_split_hands
 end
 
 def q_ante_size
-  # loop until you get a good answer and return
-  loop do
+  clean
+    loop do
     print "What's the ante size? "
     answer = gets.chomp
-    #binding.pry
+
     return 10 if answer == ""
     answer = answer.to_i
     if answer > 1000

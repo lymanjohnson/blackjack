@@ -1,18 +1,17 @@
 Dir['./lib/*.rb'].each { |file| require file }
 require 'pry'
 
-
-puts "
-
-Thick cigarette smoke fills the casino hall, and yet still fails to hide the sharp odor of freon emanating from above. The haze and gloom masks the faces of your fellow gamblers like two decades on a polaroid. Still, you see some old familiars. Welcome back, stranger.
-
-
-"
+include User_Interface
 
 game = Game.new
+$game_count = 0
+welcome
+game.add_rules
+$deck.shuffle
+
 
 while game.on
-  $deck.shuffle
+  $game_count+=1
   game.play_round
-  binding.pry
+  welcome
 end
