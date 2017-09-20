@@ -5,6 +5,11 @@ class Card
   FACE_CARDS = %i[J Q K].freeze
   SUITS = %i[clubs diamonds hearts spades].freeze
 
+  $EMOJIS = {:clubs => "\u{2663}",
+  :diamonds => "\u{2666}",
+  :hearts => "\u{2665}",
+  :spades => "\u{2660}"}
+
   attr_reader :rank, :suit
 
   def initialize(rank, suit)
@@ -31,5 +36,6 @@ class Card
 end
 
 def to_s
-  "#{rank} of #{suit}"
+  emoji = $EMOJIS[@suit]
+  "#{rank}#{emoji}"
 end

@@ -71,7 +71,11 @@ class Player
   end
 
   def get_dealt
-    puts "Will #{@name} play this round?'"
+    #clean
+    message = "The dealer is ready to play. "
+    message = "The deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
+    puts message
+    puts "\nWill #{@name} be playing this round?"
     if @money >= $ante_size
       @wager = q_wager(money).to_i
       @money -= @wager

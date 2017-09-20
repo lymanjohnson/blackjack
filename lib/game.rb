@@ -4,6 +4,7 @@ class Game
   attr_accessor :on, :play_round
 
   def initialize
+
     @on = true
     $deck = Deck.new(1)
     $resplit_aces = true
@@ -31,7 +32,7 @@ class Game
 
     else
       add_player(:human)
-      $players[0].name = 'Player'
+      $players[0].name = 'you'
       $players[0].money = $ante_size * 10
       $players[0].starting_money = $players[-1].money
       # $players[0].new_hand

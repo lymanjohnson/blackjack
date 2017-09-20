@@ -87,7 +87,6 @@ class Hand
     value = 0
     aces_count = 0
     @cards.each do |card|
-      puts card
       if card.rank == :K || card.rank == :Q || card.rank == :J
         value += 10
       elsif card.rank == :A
@@ -119,7 +118,7 @@ class Hand
 
   def to_s
     s = ''
-    @cards.each { |card| s += " #{card}," }
+    @cards.each { |card| s += " #{card} |" }
     s[0...-1]
   end
 
