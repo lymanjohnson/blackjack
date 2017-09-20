@@ -107,9 +107,9 @@ class Game
     end
 
     # Players and dealer discard their hands
-    $dealer.discard_all_hands
+    $dealer.reset
     $players.each do |player|
-      player.discard_all_hands
+      player.reset
     end
 
     # If it's time to shuffle the deck, do so.

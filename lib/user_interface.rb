@@ -23,13 +23,19 @@ module User_Interface
     bar += "\n\n"
 
     $players.each do |player|
-      bar += "Player: #{player.name}\t\tMoney: #{player.money}\n"
+      bar += "Player: #{player.name}\tMoney: #{player.money}\t"
+      if player.insurance > 0
+        bar += "INSURED\n"
+      else bar+= "\n"
+      end
       player.hands.each_with_index do |hand, _i|
         bar += "\nHand #{_i + 1} : #{hand}\nScore: #{hand.score}\tWager: #{hand.wager}\n"
+
+        bar += '_' * 10
+        bar += "\n\n"
       end
     end
-    bar += '_' * 10
-    bar += "\n\n"
+
     clean
     puts bar
   end

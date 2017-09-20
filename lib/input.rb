@@ -232,8 +232,10 @@ def q_double_after_split
   end
 end
 
-def q_insurance
+def q_insurance(name,wager)
   status_bar
+  puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance.
+  Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     loop do
     answer = gets.chomp.downcase
 

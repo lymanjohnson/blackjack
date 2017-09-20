@@ -86,8 +86,7 @@ class Player
   end
 
   def insurance?
-    puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance. Get #{@wager} back if dealer reveals a blackjack. [y/n]"
-    if q_insurance
+    if q_insurance(@name,@wager)
       @insurance = @wager / 2
       @money -= @insurance
       puts 'Insurance purchased.'
