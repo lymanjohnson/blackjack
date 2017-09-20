@@ -77,7 +77,9 @@ class Hand
   end
 
   def discard_hand_into_deck
-    $deck.discards.push(@cards).flatten
+    @cards.each do |card|
+      $deck.discards.push(card)
+    end
     @cards = []
   end
 

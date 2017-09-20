@@ -26,7 +26,9 @@ class Deck
   end
 
   def shuffle
-    @cards.push(@discards).flatten
+    @discards.each do |card|
+      @cards.push(card)
+    end
     @discards = []
     @cards.shuffle!
   end
