@@ -75,12 +75,20 @@ class Player
     end
   end
 
+  def playing_this_round
+    q_playing_this_round(@name)
+  end
+
+  def my_wager
+    q_wager(name,money).to_i
+  end
+
   def get_dealt
     message = ""
     puts message
-    $players.length == 1 ? wants_to_play = true : wants_to_play = q_playing_this_round(@name)
+    $players.length == 1 ? wants_to_play = true : wants_to_play = playing_this_round
     if @money >= $ante_size && wants_to_play
-      @wager = q_wager(name,money).to_i
+      @wager = my_wager
       @money -= @wager
       new_hand
       hands[-1].wager = @wager
@@ -152,7 +160,95 @@ class Player
   end
 end
 
+class Stupidplayer < Player
+
+  def make_decision(options,hand_index)
+    status_bar
+    puts "#{name}'s turn"
+    gets
+    choice = options.sample
+    status_bar
+    puts "#{name} decided to #{choice.to_s.downcase.tr(":","")}"
+    gets
+    return choice
+  end
+
+  def my_wager
+    rand($ante_size...@money)
+  end
+
+  def insurance?
+    if @money > @wager/2 || rand(2) == 1
+      @insurance = @wager / 2
+      @money -= @insurance
+      puts "#{name} buys insurance."
+    else
+      @insurance = 0
+      puts "#{name} does not buy insurance"
+    end
+    gets
+  end
+
+  def playing_this_round
+    $ante_size<@money
+  end
+
+end
+
 class Roboplayer < Player
+
+  def make_decision(options,hand_index)
+    status_bar
+    puts "#{name}'s turn"
+    gets
+    if @hands[hand_index].score == :blackjack || @hands[hand_index].score == :bust
+      choice = :stand
+    elsif @hands[hand_index].score < 17
+      choice = :hit
+    else
+      choice = :stand
+    end
+    status_bar
+    puts "#{name} decided to #{choice.to_s.downcase.tr(":","")}"
+    gets
+    return choice
+  end
+
+  def my_wager
+    $ante_size
+  end
+
+  def insurance?
+    @insurance = 0
+    puts "#{name} does not buy insurance"
+    gets
+  end
+
+  def playing_this_round
+    $ante_size<@money
+  end
+
+end
+
+
+
+class Dealer < Player
+  # def initialize
+  #   super
+  # end
+
+  def new_hand
+    $dealer_hand = Hand.new(nil, true)
+    $dealer_hand.score = ""
+    $hole_card = $dealer_hand.cards[0]
+    $up_card = $dealer_hand.cards[1]
+    @hands.push($dealer_hand)
+    @im_done = false
+  end
+
+  def insurance?
+    $up_card.rank == :A
+  end
 
   def my_turn
     @hands.each do |hand|
@@ -188,66 +284,8 @@ class Roboplayer < Player
           gets
           @im_done = true
         end
+
       end
     end
   end
-
-end
-
-class Dealer < Roboplayer
-  # def initialize
-  #   super
-  # end
-
-  def new_hand
-    $dealer_hand = Hand.new(nil, true)
-    $dealer_hand.score = ""
-    $hole_card = $dealer_hand.cards[0]
-    $up_card = $dealer_hand.cards[1]
-    @hands.push($dealer_hand)
-    @im_done = false
-  end
-
-  def insurance?
-    $up_card.rank == :A
-  end
-
-  # def my_turn
-  #   @hands.each do |hand|
-  #     # binding.pry
-  #     until @im_done
-  #       status_bar
-  #       if hand.score == :bust
-  #         # binding.pry
-  #         puts "#{@name} busts."
-  #         puts "\nPress <enter> to continue."
-  #         gets
-  #         @im_done = true
-  #       elsif hand.score == :blackjack
-  #         puts "#{@name} finishes with blackjack."
-  #         puts "\nPress <enter> to continue."
-  #         gets
-  #         @im_done = true
-  #       elsif (hand.score <= 16 || hand.soft_seventeen?)
-  #         # binding.pry
-  #         hand.draw_card_from_deck
-  #         puts "#{@name} draws #{hand.cards[-1]} from deck."
-  #         puts "\nPress <enter> to continue."
-  #         gets
-  #         # puts "Their score is now #{hand.score}\n"
-  #       else
-  #         # binding.pry
-  #         if hand.soft_seventeen?
-  #           "#{@name} finishes with a hard seventeen."
-  #         else
-  #           puts "#{@name} finishes with a #{hand.score}."
-  #         end
-  #         puts "\nPress <enter> to continue."
-  #         gets
-  #         @im_done = true
-  #       end
-  #
-  #     end
-  #   end
-  # end
 end

@@ -76,6 +76,21 @@ def q_make_decision(options,hand_index,possessive)
   end
 end
 
+def q_play_with_robots
+  clean
+    loop do
+    print "Do you want to play with the MST3K Robots? [y/n] "
+    answer = gets.chomp.downcase
+
+    if answer[0] == "y"
+      return true
+    elsif answer[0] == "n" || answer == ""
+      return false
+    end
+    puts "\n\nThat is not a valid answer!"
+  end
+end
+
 def q_shoe_size
   clean
     loop do
@@ -101,14 +116,14 @@ end
 def q_number_of_humans
   clean
     loop do
-    print "How many human players are there? [1-7]  "
+    print "How many human players are there? [1-4]  "
     answer = gets.chomp
 
     return 1 if answer == ""
     answer = answer.to_i
-    if answer > 7
+    if answer > 4
       puts "\n\nThe maximum is seven."
-      return 7
+      return 4
     elsif answer < 1
       puts "\n\nThe minimum is one."
       return 1

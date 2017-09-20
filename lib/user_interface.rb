@@ -59,9 +59,9 @@ module User_Interface
       puts "
 
 Thick cigarette smoke fills the casino hall, and yet still fails to hide the sharp odor of freon emanating from above.
-The haze and gloom masks the faces of your fellow gamblers like two decades on a polaroid. Still, you see some old familiars.
+The haze and gloom masks the faces of your fellow gamblers like two decades on a polaroid.
 
-Welcome back, stranger.
+You see your old pals, Crow and Tom Servo sitting at a nearby table.
 
 
 Press <enter> to continue

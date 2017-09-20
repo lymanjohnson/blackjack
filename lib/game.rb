@@ -34,15 +34,25 @@ class Game
 
     else
       add_player(:human)
-      $players[0].name = 'You'
+      $players[0].name = 'Joel'
       $players[0].money = $ante_size * 10
       $players[0].starting_money = $players[-1].money
+
+      crow = Stupidplayer.new
+      crow.name = "Crow"
+      crow.money = $ante_size*10
+      $players.unshift(crow)
+
+      tom_servo = Roboplayer.new
+      tom_servo.name = "Tom Servo"
+      tom_servo.money = $ante_size*10
+      $players.unshift(tom_servo)
+
       # $players[0].new_hand
     end
   end
 
   def add_player(character)
-
     newplayer = Player.new(character)
     newplayer_id = ":player#{$players.length + 1}"
     newplayer.player_id = newplayer_id.to_sym
@@ -50,6 +60,7 @@ class Game
   end
 
   def custom_rules
+    q_play_with_robots
     $deck = Deck.new(q_shoe_size)
     $ante_size = q_ante_size
     $resplit_aces = q_resplit_aces
@@ -58,6 +69,21 @@ class Game
     $max_split_hands = q_max_split_hands
     $hit_on_soft_seventeen = q_hit_on_soft_seventeen
     $discards_visible = q_discards_visible
+
+  end
+
+  def play_with_robots
+    if q_play_with_robots
+      crow = Stupidplayer.new
+      crow.name = "Crow"
+      crow.money = $ante_size*10
+      $players.unshift(crow)
+
+      tom_servo = Roboplayer.new
+      tom_servo.name = "Tom Servo"
+      tom_servo.money = $ante_size*10
+      $players.unshift(tom_servo)
+    end
   end
 
   def play_round
