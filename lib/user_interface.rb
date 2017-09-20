@@ -28,6 +28,11 @@ module User_Interface
         bar += "INSURED\n"
       else bar+= "\n"
       end
+      if player.hands.length == 0
+        bar += "\n\n\n"
+        bar += '_' * 10
+        bar += "\n\n"
+      end
       player.hands.each_with_index do |hand, _i|
         bar += "\nHand #{_i + 1} : #{hand}\nScore: #{hand.score}\tWager: #{hand.wager}\n"
 
@@ -56,13 +61,7 @@ Press <enter> to continue
       gets
     else
       status_bar
-      puts "
-
-      The dealer prepares for the next game. You've played #{$game_count} game(s). You have $#{$players[0].money} left.
-
-
-      Press <enter> to continue
-      "
+      puts "You've played #{$game_count} game(s). You have $#{$players[0].money} left.\n\nPress <enter> to continue\n"
       gets
 
       # Ask the player if they'd like to continue

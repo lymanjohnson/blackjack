@@ -97,7 +97,7 @@ class Player
 
   def possessive
     poss = @name +"'s"
-    poss = "Your" if @name == "you"
+    poss = "Your" if @name == "You"
     return poss
   end
 
@@ -136,10 +136,12 @@ class Player
           @money += hand.wager
         end
       elsif hand == $dealer_hand && hand.score != :bust
-        puts "#{possessive} Hand ##{_i+1} ties against dealer_hand. Wager returned to #{@name}"
+        puts "#{possessive} Hand ##{_i+1} ties against the dealer's hand. Wager returned to #{@name}"
         @money += hand.wager
       elsif hand < $dealer_hand
         puts "#{possessive} Hand ##{_i+1} loses."
+      elsif hand.score == :bust
+        puts "#{possessive} Hand ##{_i+1} busts."
       end
       puts "\nPress <enter> to continue."
       gets
@@ -158,6 +160,7 @@ class Dealer < Player
     $hole_card = $dealer_hand.cards[0]
     $up_card = $dealer_hand.cards[1]
     @hands.push($dealer_hand)
+    @im_done = false
   end
 
   def insurance?
@@ -166,17 +169,36 @@ class Dealer < Player
 
   def my_turn
     @hands.each do |hand|
+      # binding.pry
       until @im_done
-        if hand == :bust || hand == :blackjack
-          binding.pry
+        status_bar
+        if hand.score == :bust
+          # binding.pry
+          puts "#{@name} busts."
+          puts "\nPress <enter> to continue."
+          gets
           @im_done = true
-        elsif (hand <= 16 || hand.soft_seventeen?)
+        elsif hand.score == :blackjack
+          puts "#{@name} finishes with blackjack."
+          puts "\nPress <enter> to continue."
+          gets
+          @im_done = true
+        elsif (hand.score <= 16 || hand.soft_seventeen?)
+          # binding.pry
           hand.draw_card_from_deck
           puts "#{@name} draws #{hand.cards[-1]} from deck."
           puts "\nPress <enter> to continue."
           gets
           # puts "Their score is now #{hand.score}\n"
         else
+          # binding.pry
+          if hand.soft_seventeen?
+            "#{@name} finishes with a hard seventeen."
+          else
+            puts "#{@name} finishes with a #{hand.score}."
+          end
+          puts "\nPress <enter> to continue."
+          gets
           @im_done = true
         end
 

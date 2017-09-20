@@ -30,10 +30,10 @@ end
 def q_wager(player_name,total_money)
   # clean
   loop do
-    print "\n\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
+    print "\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
-      puts "\n\nYou bet $#{$ante_size}"
+      puts "\nYou bet $#{$ante_size}"
       return $ante_size
     end
     answer = Integer(answer)

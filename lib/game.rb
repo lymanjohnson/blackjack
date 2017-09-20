@@ -33,7 +33,7 @@ class Game
 
     else
       add_player(:human)
-      $players[0].name = 'you'
+      $players[0].name = 'You'
       $players[0].money = $ante_size * 10
       $players[0].starting_money = $players[-1].money
       # $players[0].new_hand
@@ -61,9 +61,9 @@ class Game
 
   def play_round
     # First ask if each player wants to play this round
-    # status_bar
-    message = "\n\nThe dealer is ready to play. "
-    message = "\n\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
+    status_bar if $game_count > 1
+    message = "\nThe dealer is ready to play. "
+    message = "\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
     puts message
 
     $players.each do |player|
