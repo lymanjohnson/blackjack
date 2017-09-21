@@ -28,17 +28,17 @@ class Game
       custom_rules if q_custom_rules
 
       $number_of_humans.times do
-        add_player(:human)
+        add_human
         $players[-1].human_properties
       end
 
     else
-      add_player(:human)
+      add_human
       $players[0].name = 'Joel'
       $players[0].money = $ante_size * 10
       $players[0].starting_money = $players[-1].money
 
-      crow = Stupidplayer.new
+      crow = Randomplayer.new
       crow.name = "Crow"
       crow.money = $ante_size*10
       $players.unshift(crow)
@@ -52,8 +52,31 @@ class Game
     end
   end
 
-  def add_player(character)
-    newplayer = Player.new(character)
+  def add_robot(character)
+    if character.behavior == :random
+      newplayer = Randomlayer.new
+    elsif character.behavior == :default
+      newplayer = Roboplayer.new
+    elsif character.behavior == :psychic
+      newplayer = Psychicplayer.new
+    elsif character.behavior == :risky
+      newplayer = Riskyplayer.new
+    elsif character.behavior == :countscards
+      newplayer = CardCountingPlayer.new
+    end
+
+    newplayer_id = ":player#{$players.length + 1}"
+    newplayer.player_id = newplayer_id.to_sym
+    newplayer.name = character.name
+    newplayer.ante_modifier = character.ante_modifier
+    newplayer.money = character.money
+    newplayer.descriptoin = character.description
+    $players.shift(newplayer)
+  end
+
+
+  def add_human
+    newplayer = Player.new
     newplayer_id = ":player#{$players.length + 1}"
     newplayer.player_id = newplayer_id.to_sym
     $players.push(newplayer)
@@ -74,7 +97,7 @@ class Game
 
   def play_with_robots
     if q_play_with_robots
-      crow = Stupidplayer.new
+      crow = Randomplayer.new
       crow.name = "Crow"
       crow.money = $ante_size*10
       $players.unshift(crow)

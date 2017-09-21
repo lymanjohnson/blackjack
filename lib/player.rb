@@ -1,29 +1,18 @@
 require 'pry'
 
 class Player
-  attr_accessor :cards, :hands, :behavior, :money, :player_id, :name, :starting_money , :insurance
+  attr_accessor :cards, :hands, :money, :player_id, :name, :starting_money , :insurance, :ante_modifier, :description, :wager
 
-  def initialize(character = nil)
+  def initialize
     @hands = []
     @insurance = 0
-
-    if character.class == Character
-      @name = character.name
-      @behavior = character.behavior
-      @flavor_text = character.flavor_text
-      @money = $ante_size * character.money
-      @wager = $ante_size * character.wager
-      @starting_money = @money
-
-    elsif character == :human
-      @behavior = character
-    end
   end
 
   def human_properties
     @name = q_name(player_id)
     @money = q_money(@name)
     @starting_money = @money
+    @description = "A human player. That's you."
   end
 
   # Pulls two cards from a deck to create a new hand
@@ -160,7 +149,7 @@ class Player
   end
 end
 
-class Stupidplayer < Player
+class Randomplayer < Player
 
   def make_decision(options,hand_index)
     status_bar
