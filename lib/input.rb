@@ -13,7 +13,7 @@ end
 def q_quick_start
     loop do
     clean
-    print "\n\nQuick start? [y/n]  "
+    print "Quick start? [y/n]  "
     answer = gets.chomp.downcase
     if answer[0] == "y" || answer == ""
       return true
@@ -21,7 +21,7 @@ def q_quick_start
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -37,7 +37,7 @@ def q_playing_this_round(name)
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -49,7 +49,8 @@ def q_wager(player_name,total_money)
     print "What will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
-      puts "\nYou bet $#{$ante_size}"
+      clean
+      puts "You bet $#{$ante_size}"
       gets
       return $ante_size
     end
@@ -70,20 +71,20 @@ def q_wager(player_name,total_money)
       return answer
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
 
 def q_make_decision(options,hand_index,possessive)
-  status_bar
-    message = "#{possessive} Hand #{hand_index + 1}:\n"
+  message = "#{possessive} Hand #{hand_index + 1}:\n"
   message += options.include?(:hit) ? "  [H] Hit\n" : ""
   message += options.include?(:double) ? "  [D] Double\n" : ""
   message += options.include?(:split) ? "  [P] Split\n" : ""
   message += options.include?(:stand) ? "  [T] Stand\n" : ""
 
   loop do
+    status_bar
     print message
     print "\nWhat will you do?  "
 
@@ -98,7 +99,8 @@ def q_make_decision(options,hand_index,possessive)
     elsif answer[0] == "t" && options.include?(:stand)
       return :stand
     end
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
+    gets
   end
 end
 
@@ -148,7 +150,7 @@ def q_shoe_size
       return answer
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -176,7 +178,7 @@ end
 def q_money(name)
     loop do
     clean
-    print "\n\nHow much money are you bringing to the table, #{name}?  "
+    print "How much money are you bringing to the table, #{name}?  "
 
     answer = gets.chomp
 
@@ -185,18 +187,18 @@ def q_money(name)
     answer = float_of_2_decimal(answer)
     if answer == :oops
       clean
-      puts "\n\nThat is not a valid answer!"
+      puts "That is not a valid answer!"
       gets
     elsif answer < $ante_size * 10
       clean
-      puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun."
+      puts "You need at least $#{$ante_size * 10} if you're going to have any fun."
       gets
       puts "You bring $#{$ante_size}"
       gets
       return $ante_size * 10
     elsif answer > 1_000_000_000
       clean
-      puts "\n\nAny more than $#{$max_allowable_money} is irresponsible..."
+      puts "Any more than $#{$max_allowable_money} is irresponsible..."
       gets
       puts "You bring $#{$max_allowable_money}"
       gets
@@ -214,12 +216,13 @@ def q_name(player_id)
     answer = gets.chomp
       if answer.length > 20
         clean
-        puts "\n\nSorry, your name must be shorter than 20 characters."
+        puts "Sorry, your name must be shorter than 20 characters."
         gets
       elsif answer == ""
         return player_id.to_s.capitalize.tr(":","")
       else
-        puts "\n\nNice to meet you, #{answer}."
+        clean
+        puts "Nice to meet you, #{answer}."
         return answer
       end
   end
@@ -237,7 +240,7 @@ def q_custom_rules
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -246,7 +249,7 @@ def q_keep_playing
   status_bar
     loop do
     clean
-    print "\n\nDo you want to keep playing? [y/n] "
+    print "Do you want to keep playing? [y/n] "
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""
@@ -255,7 +258,7 @@ def q_keep_playing
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -272,7 +275,7 @@ def q_resplit_aces
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -289,7 +292,7 @@ def q_hit_on_soft_seventeen
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -306,7 +309,7 @@ def q_double_after_split
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -324,7 +327,7 @@ def q_offer_insurance
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -341,7 +344,7 @@ def q_discards_visible
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -360,7 +363,7 @@ def q_insurance(name,wager)
       return false
     end
     clean
-    puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
     gets
   end
 end
@@ -376,7 +379,7 @@ def q_number_of_split_hands
     answer = float_of_2_decimal(answer)
     if answer > $max_allowable_split_hands || answer < 1
       clean
-      puts puts "\n\nThat is not a valid answer!"
+      puts puts "That is not a valid answer!"
       gets
     else
       return answer.to_i
@@ -387,22 +390,22 @@ end
 def q_ante_size
     loop do
       clean
-    print "What's the ante size? [1 - #{$max_allowable_ante}]"
+    print "What's the ante size? [1 - #{$max_allowable_ante}]  "
     answer = gets.chomp.to_i
 
     return 10 if answer == ""
     answer = float_of_2_decimal(answer)
     if answer == :oops
       clean
-      puts "\n\nThat is not a valid answer!"
+      puts "That is not a valid answer!"
       gets
     elsif answer > $max_allowable_ante
       clean
-      puts "\n\nThe maximum is $#{$max_allowable_ante}."
+      puts "The maximum is $#{$max_allowable_ante}."
       gets
     elsif answer < 1
       clean
-      puts "\n\nThat is not a valid answer!"
+      puts "That is not a valid answer!"
       gets
     else
       return answer
