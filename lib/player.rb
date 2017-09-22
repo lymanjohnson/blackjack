@@ -1,7 +1,7 @@
 require 'pry'
 
 class Player
-  attr_accessor :cards, :hands, :money, :player_id, :name, :starting_money , :insurance, :ante_modifier, :description, :wager
+  attr_accessor :cards, :hands, :money, :player_id, :name, :starting_money , :insurance, :ante_modifier, :flavor_text, :wager
 
   def initialize
     @hands = []
@@ -12,7 +12,7 @@ class Player
     @name = q_name(player_id)
     @money = q_money(@name)
     @starting_money = @money
-    @description = "A human player. That's you."
+    @flavor_text = "A human player. That's you."
   end
 
   # Pulls two cards from a deck to create a new hand
@@ -69,6 +69,7 @@ class Player
   end
 
   def my_wager
+    ##binding.pry
     q_wager(name,money).to_i
   end
 
@@ -77,6 +78,7 @@ class Player
     puts message
     $players.length == 1 ? wants_to_play = true : wants_to_play = playing_this_round
     if @money >= $ante_size && wants_to_play
+      ##binding.pry
       @wager = my_wager
       @money -= @wager
       new_hand
@@ -102,7 +104,6 @@ class Player
   end
 
   def my_turn
-
     @hands.each_with_index do |hand, _i|
       hand.define_options
       until hand.im_done
@@ -163,7 +164,8 @@ class Randomplayer < Player
   end
 
   def my_wager
-    rand($ante_size...@money)
+    ##binding.pry
+    rand($ante_size...@money/2)
   end
 
   def insurance?
@@ -186,13 +188,18 @@ end
 
 class Roboplayer < Player
 
+  def initialize
+    super
+    @risk_tolerance = 17
+  end
+
   def make_decision(options,hand_index)
     status_bar
     puts "#{name}'s turn"
     gets
     if @hands[hand_index].score == :blackjack || @hands[hand_index].score == :bust
       choice = :stand
-    elsif @hands[hand_index].score < 17
+    elsif @hands[hand_index].score < @risk_tolerance
       choice = :hit
     else
       choice = :stand
@@ -204,7 +211,10 @@ class Roboplayer < Player
   end
 
   def my_wager
-    $ante_size
+    #binding.pry
+    max = $ante_size*@ante_modifier
+    (max = @money) if @money < max
+    rand($ante_size...(max))
   end
 
   def insurance?
@@ -216,15 +226,21 @@ class Roboplayer < Player
   def playing_this_round
     $ante_size<@money
   end
-
 end
 
+class Riskyplayer <Roboplayer
+  def initialize
+    super
+    @risk_tolerance = 19
+  end
 
+  def my_wager
+    ##binding.pry
+    rand($ante_size...@money/3)
+  end
+end
 
 class Dealer < Player
-  # def initialize
-  #   super
-  # end
 
   def new_hand
     $dealer_hand = Hand.new(nil, true)
@@ -241,11 +257,11 @@ class Dealer < Player
 
   def my_turn
     @hands.each do |hand|
-      # binding.pry
+      # ##binding.pry
       until @im_done
         status_bar
         if hand.score == :bust
-          # binding.pry
+          # ##binding.pry
           puts "#{@name} busts."
           puts "\nPress <enter> to continue."
           gets
@@ -256,14 +272,14 @@ class Dealer < Player
           gets
           @im_done = true
         elsif (hand.score <= 16 || hand.soft_seventeen?)
-          # binding.pry
+          # ##binding.pry
           hand.draw_card_from_deck
           puts "#{@name} draws #{hand.cards[-1]} from deck."
           puts "\nPress <enter> to continue."
           gets
           # puts "Their score is now #{hand.score}\n"
         else
-          # binding.pry
+          # ##binding.pry
           if hand.soft_seventeen?
             "#{@name} finishes with a hard seventeen."
           else

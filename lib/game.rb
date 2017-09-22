@@ -22,9 +22,9 @@ class Game
 
   def add_rules
     $quick_start = q_quick_start
-
     if $quick_start == false
       $number_of_humans = q_number_of_humans
+      play_with_robots
       custom_rules if q_custom_rules
 
       $number_of_humans.times do
@@ -33,28 +33,41 @@ class Game
       end
 
     else
+      $characters.each do |character|
+        add_robot(character)
+      end
       add_human
-      $players[0].name = 'Joel'
-      $players[0].money = $ante_size * 10
-      $players[0].starting_money = $players[-1].money
-
-      crow = Randomplayer.new
-      crow.name = "Crow"
-      crow.money = $ante_size*10
-      $players.unshift(crow)
-
-      tom_servo = Roboplayer.new
-      tom_servo.name = "Tom Servo"
-      tom_servo.money = $ante_size*10
-      $players.unshift(tom_servo)
+      $players[-1].name = 'You'
+      $players[-1].money = $ante_size * 10
+      $players[-1].starting_money = $players[-1].money
+      # crow = Randomplayer.new
+      # crow.name = "Crow"
+      # crow.money = $ante_size*10
+      # $players.unshift(crow)
+      #
+      # tom_servo = Roboplayer.new
+      # tom_servo.name = "Tom Servo"
+      # tom_servo.money = $ante_size*10
+      # $players.unshift(tom_servo)
 
       # $players[0].new_hand
     end
   end
 
+  def custom_rules
+    $deck = Deck.new(q_shoe_size)
+    $ante_size = q_ante_size
+    $resplit_aces = q_resplit_aces
+    $double_after_split = q_double_after_split
+    $offer_insurance = q_offer_insurance
+    $max_split_hands = q_max_split_hands
+    $hit_on_soft_seventeen = q_hit_on_soft_seventeen
+    $discards_visible = q_discards_visible
+  end
+
   def add_robot(character)
     if character.behavior == :random
-      newplayer = Randomlayer.new
+      newplayer = Randomplayer.new
     elsif character.behavior == :default
       newplayer = Roboplayer.new
     elsif character.behavior == :psychic
@@ -69,11 +82,11 @@ class Game
     newplayer.player_id = newplayer_id.to_sym
     newplayer.name = character.name
     newplayer.ante_modifier = character.ante_modifier
-    newplayer.money = character.money
-    newplayer.descriptoin = character.description
-    $players.shift(newplayer)
+    newplayer.money = character.money*$ante_size
+    newplayer.flavor_text = character.flavor_text
+    ##binding.pry
+    $players.unshift(newplayer)
   end
-
 
   def add_human
     newplayer = Player.new
@@ -82,30 +95,15 @@ class Game
     $players.push(newplayer)
   end
 
-  def custom_rules
-    q_play_with_robots
-    $deck = Deck.new(q_shoe_size)
-    $ante_size = q_ante_size
-    $resplit_aces = q_resplit_aces
-    $double_after_split = q_double_after_split
-    $offer_insurance = q_offer_insurance
-    $max_split_hands = q_max_split_hands
-    $hit_on_soft_seventeen = q_hit_on_soft_seventeen
-    $discards_visible = q_discards_visible
-
-  end
-
   def play_with_robots
-    if q_play_with_robots
-      crow = Randomplayer.new
-      crow.name = "Crow"
-      crow.money = $ante_size*10
-      $players.unshift(crow)
-
-      tom_servo = Roboplayer.new
-      tom_servo.name = "Tom Servo"
-      tom_servo.money = $ante_size*10
-      $players.unshift(tom_servo)
+    asking = true
+    while asking
+      new_robot = q_play_with_robots($characters)
+      if new_robot.nil?
+        asking = false
+      else
+        add_robot(new_robot)
+      end
     end
   end
 
@@ -117,6 +115,7 @@ class Game
     message = "\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
     puts message
 
+    ###binding.pry
     $players.each do |player|
       player.get_dealt if player.money >= $ante_size
     end

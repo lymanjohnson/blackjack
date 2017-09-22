@@ -76,20 +76,41 @@ def q_make_decision(options,hand_index,possessive)
   end
 end
 
-def q_play_with_robots
-  clean
-    loop do
-    print "Do you want to play with the MST3K Robots? [y/n] "
-    answer = gets.chomp.downcase
+# def q_play_with_robots
+#   clean
+#     loop do
+#     print "Do you want to play with the MST3K Robots? [y/n] "
+#     answer = gets.chomp.downcase
+#
+#     if answer[0] == "y"
+#       return true
+#     elsif answer[0] == "n" || answer == ""
+#       return false
+#     end
+#     puts "\n\nThat is not a valid answer!"
+#   end
+# end
 
-    if answer[0] == "y"
-      return true
-    elsif answer[0] == "n" || answer == ""
-      return false
+def q_play_with_robots(characters)
+  clean
+  message = "You look around the table and see some familiar faces.\n\n"
+  characters.each_with_index do |character,_i|
+    message += "[#{_i+1}] #{character.name}  (#{character.description})\n\n#{character.flavor_text}\n\n\n\n"
+  end
+  message += "\n\nWho would you like to play with?\n\n<Type [0] if you'd like to play alone.>  "
+  loop do
+    print message
+    response = Integer(gets.chomp)
+    if response <= 0
+      return nil
     end
-    puts "\n\nThat is not a valid answer!"
+    selection = characters.delete_at(response-1)
+    print "You see your old friend, #{selection.name}"
+    gets
+    return selection
   end
 end
+
 
 def q_shoe_size
   clean
@@ -189,7 +210,7 @@ end
 def q_keep_playing
   status_bar
     loop do
-    print "\n\nDo you want to play another hand? [y/n] "
+    print "\n\nDo you want to keep playing? [y/n] "
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""
