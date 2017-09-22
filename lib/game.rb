@@ -10,18 +10,25 @@ class Game
     $hit_on_soft_seventeen = true
     $double_after_split = true
     $offer_insurance = true
-    $max_split_hands = 4
     $ante_size = 10
+    $number_of_split_hands = 4
     $number_of_humans = 1
     $dealer = Dealer.new
     $dealer.name = "The dealer"
     $players = []
     $discards_visible = true
     $show_dealers_cards_now = false
+
+    # These variables are the max that the player is allowed to set in custom rules
+    $max_allowable_decks = 5
+    $max_allowable_humans = 4
+    $max_allowable_split_hands = 4
+    $max_allowable_money = 1_000_000_000
+    $max_allowable_ante = 10000
   end
 
   def add_rules
-    q_shoe_size
+    q_number_of_humans
     $quick_start = q_quick_start
     if $quick_start == false
       $number_of_humans = q_number_of_humans
@@ -61,7 +68,7 @@ class Game
     $resplit_aces = q_resplit_aces
     $double_after_split = q_double_after_split
     $offer_insurance = q_offer_insurance
-    $max_split_hands = q_max_split_hands
+    $number_of_split_hands = q_number_of_split_hands
     $hit_on_soft_seventeen = q_hit_on_soft_seventeen
     $discards_visible = q_discards_visible
   end

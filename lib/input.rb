@@ -45,16 +45,19 @@ def q_wager(player_name,total_money)
     print "\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
-      # puts "\nYou bet $#{$ante_size}"
+      puts "\nYou bet $#{$ante_size}"
+      gets
       return $ante_size
     end
     answer = float_of_2_decimal(answer)
     if answer == :oops
     elsif answer < $ante_size
+      clean
       puts "You must bet at least #{$ante_size}. You put down #{$ante_size}."
       gets
       return $ante_size
     elsif answer > total_money
+      clean
       puts "You can't bet more than you have. (You have #{total_money})"
       puts "You put down #{total_money}"
       gets
@@ -100,24 +103,24 @@ def q_play_with_robots(characters)
   characters.each_with_index do |character,_i|
     message += "[#{_i+1}] #{character.name}  (#{character.description})\n\n#{character.flavor_text}\n\n\n\n"
   end
-  message += "\t\tTYPE THE NUMBER OF THE PERSON YOU'D LIKE TO PLAY WITH. \n\n\t\tTYPE ZERO [0] IF YOU DON'T WANT TO PLAY WITH ANYONE ELSE\n\n\n\n"
+  message += "\t\tENTER THE NUMBER OF THE PERSON YOU'D LIKE TO PLAY WITH. \n\n\t\tPRESS ENTER IF YOU DON'T WANT TO PLAY WITH ANYONE ELSE\n\n\n\n"
   loop do
     print message
+    response = gets.chomp
+    return nil if response == "" || response[0].downcase = "n" || response[0] == " "
     begin
-      response = Integer(gets.chomp)
-      if response > characters.length || response < 0
+      response = Integer(response)
+      if response > characters.length || response < characters.length
         clean
         puts "That's not a valid answer"
         gets
         clean
-      elsif response == 0
-        return nil
       else
         return response
       end
     rescue ArgumentError
       clean
-      puts "That's not a valid answer"
+      puts "That's not a valid answer. "
       gets
       clean
     end
@@ -127,46 +130,38 @@ end
 def q_shoe_size
   clean
     loop do
-    print "\n\nHow many decks do you want to play with? [1-5]  "
+    print "\n\nHow many decks do you want to play with? [1-#{$max_allowable_decks}]  "
     answer = gets.chomp
     if answer == ""
       return 1
     end
     answer = answer.to_i
-    if answer > 5
+    if answer > $max_allowable_decks
       clean
-      # puts "\nThat's too many decks. You'll play with five decks."
-      # gets
-      # return 5
     elsif answer <= 0
       clean
-      # puts "\nYou need at least one deck. You'll play with one deck."
-      # gets
-      # return 1
     else
       return answer
     end
-    puts "That is not a valid answer!"
+    puts "\n\nThat is not a valid answer!"
   end
 end
 
 def q_number_of_humans
   clean
     loop do
-    print "How many human players are there? [1-4]  "
+    print "How many human players are there? [1-#{$max_allowable_humans}]  "
     answer = gets.chomp
-
     return 1 if answer == ""
-    answer = float_of_2_decimal(answer)
-    if answer > 4
-      puts "\n\nThe maximum is seven."
-      return 4
+    answer = answer.to_i
+    if answer > $max_allowable_humans
+      clean
     elsif answer < 1
-      puts "\n\nThe minimum is one."
-      return 1
+      clean
     else
-      return answer.to_i
+      return answer
     end
+    puts "That is not a valid answer!"
   end
 end
 
@@ -181,11 +176,14 @@ def q_money(name)
     # answer = float_of_2_decimal(gets.chomp)
     answer = float_of_2_decimal(answer)
     if answer < $ante_size * 10
-      puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun"
+      puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun."
       return $ante_size * 10
     elsif answer > 1_000_000_000
-      puts "\n\nAny more than $1 billion is irresponsible..."
-      return 1_000_000_000
+      puts "\n\nAny more than $#{$max_allowable_money} is irresponsible..."
+      return $max_allowable_money
+    elsif answer == :oops
+      clean
+      puts "\n\nThat is not a valid answer!"
     else
       return answer
     end
@@ -331,21 +329,21 @@ def q_insurance(name,wager)
   end
 end
 
-def q_max_split_hands
+def q_number_of_split_hands
   clean
     loop do
     print "What's the maximum number of hands a player can hold? [1-4] "
     answer = gets.chomp
 
-    return 4 if answer == ""
+    return $max_allowable_split_hands if answer == ""
     # answer = float_of_2_decimal(gets.chomp)
     answer = float_of_2_decimal(answer)
-    if answer > 4
-      puts "\n\nThe maximum is 4."
-      return 4
+    if answer > $max_allowable_split_hands
+      clean
+      puts "\n\nThe maximum is #{$max_allowable_split_hands}."
     elsif answer < 1
+      clean
       puts "\n\nThe minimum is 1."
-      return 1
     else
       return answer.to_i
     end
@@ -355,17 +353,20 @@ end
 def q_ante_size
   clean
     loop do
-    print "What's the ante size? "
-    answer = gets.chomp
+    print "What's the ante size? [1 - #{$max_allowable_ante}]"
+    answer = gets.chomp.to_i
 
     return 10 if answer == ""
     answer = float_of_2_decimal(answer)
-    if answer > 1000
-      puts "\n\nThe maximum is 1000."
-      return 4
+    if answer > $max_allowable_ante
+      clean
+      puts "\n\nThe maximum is $#{$max_allowable_ante}."
     elsif answer < 1
-      puts "\n\nThe minimum is 1."
-      return 1
+      clean
+      puts "\n\nThat is not a valid answer!"
+    elsif answer == :oops
+      clean
+      puts "\n\nThat is not a valid answer!"
     else
       return answer
     end
