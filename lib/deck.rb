@@ -17,13 +17,13 @@ class Deck
 
   def visible_cards
     visible = []
-    # ###binding.pry
+    # ##
     $players.each do |player|
-      # ###binding.pry
+      # ##
       player.hands.each do |hand|
-        # ###binding.pry
+        # ##
         hand.cards.each do |card|
-          # ###binding.pry
+          # ##
           visible.push(card)
         end
       end
@@ -32,7 +32,7 @@ class Deck
       visible.push(card)
     end
     visible.delete($hole_card)
-    ###binding.pry
+    ##
     visible
   end
 

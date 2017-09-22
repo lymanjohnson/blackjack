@@ -69,7 +69,7 @@ class Player
   end
 
   def my_wager
-    ##binding.pry
+    #
     q_wager(name,money).to_i
   end
 
@@ -78,7 +78,7 @@ class Player
     puts message
     $players.length == 1 ? wants_to_play = true : wants_to_play = playing_this_round
     if @money >= $ante_size && wants_to_play
-      ##binding.pry
+      #
       @wager = my_wager
       @money -= @wager
       new_hand
@@ -164,7 +164,7 @@ class Randomplayer < Player
   end
 
   def my_wager
-    ##binding.pry
+    #
     rand($ante_size...@money/2)
   end
 
@@ -185,6 +185,7 @@ class Randomplayer < Player
   end
 
 end
+
 
 class Roboplayer < Player
 
@@ -211,7 +212,6 @@ class Roboplayer < Player
   end
 
   def my_wager
-    #binding.pry
     max = $ante_size*@ante_modifier
     (max = @money) if @money < max
     rand($ante_size...(max))
@@ -228,6 +228,42 @@ class Roboplayer < Player
   end
 end
 
+class Psychicplayer < Roboplayer
+  def make_decision(options,hand_index)
+    status_bar
+    choice = :stand
+    puts "#{name}'s turn"
+    gets
+    array = []
+    @hands[hand_index].cards.each do |card|
+      array.push(card)
+    end
+    array.push($deck.cards[0])
+    virtual_hand = Hand.new(array)
+    #binding.pry
+    if @hands[hand_index] == :blackjack || @hands[hand_index] > virtual_hand
+      choice = :stand
+    elsif (virtual_hand == :blackjack || virtual_hand > 20) && options.include?(:double)
+      choice = :double
+      #binding.pry
+    elsif virtual_hand == :bust
+      choice = :stand
+      #binding.pry
+    elsif options.include?(:split)
+      choice = :split
+      #binding.pry
+    else
+      choice = :hit
+      #binding.pry
+    end
+    #binding.pry
+    status_bar
+    puts "#{name} decided to #{choice.to_s.downcase.tr(":","")}"
+    gets
+    return choice
+  end
+end
+
 class Riskyplayer <Roboplayer
   def initialize
     super
@@ -235,7 +271,7 @@ class Riskyplayer <Roboplayer
   end
 
   def my_wager
-    ##binding.pry
+    #
     rand($ante_size...@money/3)
   end
 end
@@ -257,11 +293,11 @@ class Dealer < Player
 
   def my_turn
     @hands.each do |hand|
-      # ##binding.pry
+      # #
       until @im_done
         status_bar
         if hand.score == :bust
-          # ##binding.pry
+          # #
           puts "#{@name} busts."
           puts "\nPress <enter> to continue."
           gets
@@ -272,14 +308,14 @@ class Dealer < Player
           gets
           @im_done = true
         elsif (hand.score <= 16 || hand.soft_seventeen?)
-          # ##binding.pry
+          # #
           hand.draw_card_from_deck
           puts "#{@name} draws #{hand.cards[-1]} from deck."
           puts "\nPress <enter> to continue."
           gets
           # puts "Their score is now #{hand.score}\n"
         else
-          # ##binding.pry
+          # #
           if hand.soft_seventeen?
             "#{@name} finishes with a hard seventeen."
           else

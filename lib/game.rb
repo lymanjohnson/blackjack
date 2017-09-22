@@ -84,7 +84,7 @@ class Game
     newplayer.ante_modifier = character.ante_modifier
     newplayer.money = character.money*$ante_size
     newplayer.flavor_text = character.flavor_text
-    ##binding.pry
+    #
     $players.unshift(newplayer)
   end
 
@@ -115,7 +115,7 @@ class Game
     message = "\nThe deck is freshly shuffled and the dealer is ready to play." if $deck.cards.length == 52
     puts message
 
-    ###binding.pry
+    ##
     $players.each do |player|
       player.get_dealt if player.money >= $ante_size
     end

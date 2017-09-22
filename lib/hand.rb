@@ -94,7 +94,7 @@ class Hand
       else
         value += card.rank
       end
-      # ###binding.pry
+      # ##
     end
 
     if aces_count > 0

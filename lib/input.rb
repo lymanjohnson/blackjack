@@ -93,11 +93,11 @@ end
 
 def q_play_with_robots(characters)
   clean
-  message = "You look around the table and see some familiar faces.\n\n"
+  message = "You look around the table and see some familiar faces.\n\n\n\n"
   characters.each_with_index do |character,_i|
     message += "[#{_i+1}] #{character.name}  (#{character.description})\n\n#{character.flavor_text}\n\n\n\n"
   end
-  message += "\n\nWho would you like to play with?\n\n<Type [0] if you'd like to play alone.>  "
+  message += "\n\nWho would you like to play with?\n\n<Or type [0] to move on.>  "
   loop do
     print message
     response = Integer(gets.chomp)
@@ -105,7 +105,7 @@ def q_play_with_robots(characters)
       return nil
     end
     selection = characters.delete_at(response-1)
-    print "You see your old friend, #{selection.name}"
+    print "\n\nYou see your old friend, #{selection.name}"
     gets
     return selection
   end
