@@ -169,7 +169,7 @@ class Randomplayer < Player
   end
 
   def insurance?
-    if @money > @wager/2 || rand(2) == 1
+    if @money > @wager/2 && rand(2) == 1
       @insurance = @wager / 2
       @money -= @insurance
       puts "#{name} buys insurance."

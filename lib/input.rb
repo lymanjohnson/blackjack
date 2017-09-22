@@ -46,11 +46,11 @@ end
 def q_wager(player_name,total_money)
   loop do
     clean
-    print "What will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
+    print "What will #{player_name} wager this round? Minimum bet is $#{'%.2f' % $ante_size}.  "
     answer = gets.chomp
     if answer == ""
       clean
-      puts "You bet $#{$ante_size}"
+      puts "You bet $#{'%.2f' % $ante_size}"
       gets
       return $ante_size
     end
@@ -58,7 +58,7 @@ def q_wager(player_name,total_money)
     if answer == :oops
     elsif answer < $ante_size
       clean
-      puts "You must bet at least #{$ante_size}. You put down #{$ante_size}."
+      puts "You must bet at least #{'%.2f' % $ante_size}. You put down #{'%.2f' % $ante_size}."
       gets
       return $ante_size
     elsif answer > total_money
@@ -191,16 +191,16 @@ def q_money(name)
       gets
     elsif answer < $ante_size * 10
       clean
-      puts "You need at least $#{$ante_size * 10} if you're going to have any fun."
+      puts "You need at least $#{'%.2f' % ($ante_size * 10)} if you're going to have any fun."
       gets
-      puts "You bring $#{$ante_size}"
+      puts "You bring $#{'%.2f' % $ante_size}"
       gets
       return $ante_size * 10
     elsif answer > 1_000_000_000
       clean
-      puts "Any more than $#{$max_allowable_money} is irresponsible..."
+      puts "Any more than $#{'%.2f' % $max_allowable_money} is irresponsible..."
       gets
-      puts "You bring $#{$max_allowable_money}"
+      puts "You bring $#{'%.2f' % $max_allowable_money}"
       gets
       return $max_allowable_money
     else
@@ -353,7 +353,7 @@ end
 def q_insurance(name,wager)
     loop do
       status_bar
-      puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance.
+      puts "Does #{name} want insurance? Put down #{'%.2f' % (@wager/2)} to buy insurance.
       Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     answer = gets.chomp.downcase
 
@@ -390,7 +390,7 @@ end
 def q_ante_size
     loop do
       clean
-    print "What's the ante size? [1 - #{$max_allowable_ante}]  "
+    print "What's the ante size? [1 - #{'%.2f' % $max_allowable_ante}]  "
     answer = gets.chomp.to_i
 
     return 10 if answer == ""
@@ -401,7 +401,7 @@ def q_ante_size
       gets
     elsif answer > $max_allowable_ante
       clean
-      puts "The maximum is $#{$max_allowable_ante}."
+      puts "The maximum is $#{'%.2f' % $max_allowable_ante}."
       gets
     elsif answer < 1
       clean

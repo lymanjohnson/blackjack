@@ -31,7 +31,7 @@ module User_Interface
     bar += "\n\n"
 
     $players.each do |player|
-      bar += "Player: #{player.name}\tMoney: #{player.money}\t"
+      bar += "Player: #{player.name}\tMoney: $#{'%.2f' % float_of_2_decimal(player.money)}\t"
       if player.insurance > 0
         bar += "INSURED\n"
       else bar+= "\n"
@@ -42,7 +42,7 @@ module User_Interface
         bar += "\n\n"
       end
       player.hands.each_with_index do |hand, _i|
-        bar += "\nHand #{_i + 1} : #{hand}\nScore: #{hand.score}\tWager: #{hand.wager}\n"
+        bar += "\nHand #{_i + 1} : #{hand}\nScore: #{hand.score}\tWager: $#{'%.2f' % float_of_2_decimal(hand.wager)}\n"
 
         bar += '_' * 10
         bar += "\n\n"
