@@ -11,8 +11,8 @@ end
 
 
 def q_quick_start
-  clean
     loop do
+    clean
     print "\n\nQuick start? [y/n]  "
     answer = gets.chomp.downcase
     if answer[0] == "y" || answer == ""
@@ -20,29 +20,33 @@ def q_quick_start
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_playing_this_round(name)
-  # clean
     loop do
-    print "\n\nWill #{name} be playing this round? [y/n]  "
+    clean
+    print "Will #{name} be playing this round? [y/n]  "
     answer = gets.chomp.downcase
     if answer[0] == "y" || answer == ""
       return true
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 
 def q_wager(player_name,total_money)
-  # clean
   loop do
-    print "\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
+    clean
+    print "What will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
       puts "\nYou bet $#{$ante_size}"
@@ -67,6 +71,7 @@ def q_wager(player_name,total_money)
     end
     clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
@@ -105,16 +110,16 @@ def q_play_with_robots(characters)
   end
   message += "\t\tENTER THE NUMBER OF THE PERSON YOU'D LIKE TO PLAY WITH. \n\n\t\tPRESS ENTER IF YOU DON'T WANT TO PLAY WITH ANYONE ELSE\n\n\n\n"
   loop do
+    clean
     print message
     response = gets.chomp
-    return nil if response == "" || response[0].downcase = "n" || response[0] == " "
+    return nil if response == "" || response[0].downcase == "n" || response[0] == " "
     begin
       response = Integer(response)
       if response > characters.length || response < characters.length
         clean
         puts "That's not a valid answer"
         gets
-        clean
       else
         return response
       end
@@ -122,15 +127,14 @@ def q_play_with_robots(characters)
       clean
       puts "That's not a valid answer. "
       gets
-      clean
     end
   end
 end
 
 def q_shoe_size
-  clean
     loop do
-    print "\n\nHow many decks do you want to play with? [1-#{$max_allowable_decks}]  "
+    clean
+    print "How many decks do you want to play with? [1-#{$max_allowable_decks}]  "
     answer = gets.chomp
     if answer == ""
       return 1
@@ -143,13 +147,15 @@ def q_shoe_size
     else
       return answer
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_number_of_humans
-  clean
     loop do
+    clean
     print "How many human players are there? [1-#{$max_allowable_humans}]  "
     answer = gets.chomp
     return 1 if answer == ""
@@ -161,29 +167,40 @@ def q_number_of_humans
     else
       return answer
     end
+    clean
     puts "That is not a valid answer!"
+    gets
   end
 end
 
 def q_money(name)
-  clean
     loop do
-    print "How much money are you bringing to the table, #{name}?  "
+    clean
+    print "\n\nHow much money are you bringing to the table, #{name}?  "
 
     answer = gets.chomp
 
     return 10 * $ante_size if answer == ""
     # answer = float_of_2_decimal(gets.chomp)
     answer = float_of_2_decimal(answer)
-    if answer < $ante_size * 10
-      puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun."
-      return $ante_size * 10
-    elsif answer > 1_000_000_000
-      puts "\n\nAny more than $#{$max_allowable_money} is irresponsible..."
-      return $max_allowable_money
-    elsif answer == :oops
+    if answer == :oops
       clean
       puts "\n\nThat is not a valid answer!"
+      gets
+    elsif answer < $ante_size * 10
+      clean
+      puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun."
+      gets
+      puts "You bring $#{$ante_size}"
+      gets
+      return $ante_size * 10
+    elsif answer > 1_000_000_000
+      clean
+      puts "\n\nAny more than $#{$max_allowable_money} is irresponsible..."
+      gets
+      puts "You bring $#{$max_allowable_money}"
+      gets
+      return $max_allowable_money
     else
       return answer
     end
@@ -191,12 +208,14 @@ def q_money(name)
 end
 
 def q_name(player_id)
-  clean
     loop do
+    clean
     print "What's your name, #{player_id.to_s.capitalize.tr(":","")}?  "
     answer = gets.chomp
       if answer.length > 20
+        clean
         puts "\n\nSorry, your name must be shorter than 20 characters."
+        gets
       elsif answer == ""
         return player_id.to_s.capitalize.tr(":","")
       else
@@ -207,8 +226,8 @@ def q_name(player_id)
 end
 
 def q_custom_rules
-  clean
     loop do
+    clean
     print "Do you want to change the house rules? [y/n] "
     answer = gets.chomp.downcase
 
@@ -217,13 +236,16 @@ def q_custom_rules
     elsif answer[0] == "n" || answer == ""
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_keep_playing
   status_bar
     loop do
+    clean
     print "\n\nDo you want to keep playing? [y/n] "
     answer = gets.chomp.downcase
 
@@ -232,13 +254,15 @@ def q_keep_playing
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_resplit_aces
-  clean
     loop do
+    clean
     print "Do you want to allow re-splitting aces? [y/n] "
     answer = gets.chomp.downcase
 
@@ -247,13 +271,15 @@ def q_resplit_aces
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_hit_on_soft_seventeen
-  clean
     loop do
+    clean
     print "Will the dealer hit on a soft seventeen? [y/n] "
     answer = gets.chomp.downcase
 
@@ -262,13 +288,15 @@ def q_hit_on_soft_seventeen
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_double_after_split
-  clean
     loop do
+    clean
     print "Do you want to allow doubling on a split hand? [y/n] "
     answer = gets.chomp.downcase
 
@@ -277,14 +305,16 @@ def q_double_after_split
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 #Note: This sets the rules regarding insurance, it doesn't ask if the player wants insurance this round.
 def q_offer_insurance
-  clean
     loop do
+    clean
     print "Do you want to offer insurance if dealer shows an ace? [y/n] "
     answer = gets.chomp.downcase
 
@@ -293,13 +323,15 @@ def q_offer_insurance
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_discards_visible
-  clean
     loop do
+      clean
     print "Do you want help remembering what's in the discard pile? [y/n] "
     answer = gets.chomp.downcase
 
@@ -308,16 +340,18 @@ def q_discards_visible
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 #Note: this asks if the player wants insurance this round, not whether insurance should be allowed in the rules.
 def q_insurance(name,wager)
-  status_bar
-  puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance.
-  Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     loop do
+      status_bar
+      puts "Does #{name} want insurance? Put down #{@wager / 2} to buy insurance.
+      Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""
@@ -325,25 +359,25 @@ def q_insurance(name,wager)
     elsif answer[0] == "n"
       return false
     end
+    clean
     puts "\n\nThat is not a valid answer!"
+    gets
   end
 end
 
 def q_number_of_split_hands
-  clean
     loop do
-    print "What's the maximum number of hands a player can hold? [1-4] "
+      clean
+    print "What's the maximum number of hands a player can hold? [1-#{$max_allowable_split_hands}] "
     answer = gets.chomp
 
     return $max_allowable_split_hands if answer == ""
     # answer = float_of_2_decimal(gets.chomp)
     answer = float_of_2_decimal(answer)
-    if answer > $max_allowable_split_hands
+    if answer > $max_allowable_split_hands || answer < 1
       clean
-      puts "\n\nThe maximum is #{$max_allowable_split_hands}."
-    elsif answer < 1
-      clean
-      puts "\n\nThe minimum is 1."
+      puts puts "\n\nThat is not a valid answer!"
+      gets
     else
       return answer.to_i
     end
@@ -351,22 +385,25 @@ def q_number_of_split_hands
 end
 
 def q_ante_size
-  clean
     loop do
+      clean
     print "What's the ante size? [1 - #{$max_allowable_ante}]"
     answer = gets.chomp.to_i
 
     return 10 if answer == ""
     answer = float_of_2_decimal(answer)
-    if answer > $max_allowable_ante
+    if answer == :oops
+      clean
+      puts "\n\nThat is not a valid answer!"
+      gets
+    elsif answer > $max_allowable_ante
       clean
       puts "\n\nThe maximum is $#{$max_allowable_ante}."
+      gets
     elsif answer < 1
       clean
       puts "\n\nThat is not a valid answer!"
-    elsif answer == :oops
-      clean
-      puts "\n\nThat is not a valid answer!"
+      gets
     else
       return answer
     end

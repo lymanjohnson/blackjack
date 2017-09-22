@@ -10,7 +10,7 @@ class Game
     $hit_on_soft_seventeen = true
     $double_after_split = true
     $offer_insurance = true
-    $ante_size = 10
+    $ante_size = float_of_2_decimal(10)
     $number_of_split_hands = 4
     $number_of_humans = 1
     $dealer = Dealer.new
@@ -23,12 +23,11 @@ class Game
     $max_allowable_decks = 5
     $max_allowable_humans = 4
     $max_allowable_split_hands = 4
-    $max_allowable_money = 1_000_000_000
-    $max_allowable_ante = 10000
+    $max_allowable_money = float_of_2_decimal(1_000_000_000)
+    $max_allowable_ante = float_of_2_decimal(10000)
   end
 
   def add_rules
-    q_number_of_humans
     $quick_start = q_quick_start
     if $quick_start == false
       $number_of_humans = q_number_of_humans
@@ -48,17 +47,6 @@ class Game
       $players[-1].name = 'You'
       $players[-1].money = $ante_size * 10
       $players[-1].starting_money = $players[-1].money
-      # crow = Randomplayer.new
-      # crow.name = "Crow"
-      # crow.money = $ante_size*10
-      # $players.unshift(crow)
-      #
-      # tom_servo = Roboplayer.new
-      # tom_servo.name = "Tom Servo"
-      # tom_servo.money = $ante_size*10
-      # $players.unshift(tom_servo)
-
-      # $players[0].new_hand
     end
   end
 
