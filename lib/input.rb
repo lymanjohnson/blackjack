@@ -1,3 +1,15 @@
+require 'bigdecimal'
+require 'bigdecimal/util'
+
+def float_of_2_decimal(answer)
+  begin
+    answer.to_d.round(2, :truncate).to_f
+  rescue ArgumentError
+    return :oops
+  end
+end
+
+
 def q_quick_start
   clean
     loop do
@@ -33,18 +45,24 @@ def q_wager(player_name,total_money)
     print "\nWhat will #{player_name} wager this round? Minimum bet is $#{$ante_size}.  "
     answer = gets.chomp
     if answer == ""
-      puts "\nYou bet $#{$ante_size}"
+      # puts "\nYou bet $#{$ante_size}"
       return $ante_size
     end
-    answer = Integer(answer)
-    if answer < $ante_size
-      puts "You must bet at least #{$ante_size}"
+    answer = float_of_2_decimal(answer)
+    if answer == :oops
+    elsif answer < $ante_size
+      puts "You must bet at least #{$ante_size}. You put down #{$ante_size}."
+      gets
       return $ante_size
     elsif answer > total_money
       puts "You can't bet more than you have. (You have #{total_money})"
+      puts "You put down #{total_money}"
+      gets
+      return total_money
     else
       return answer
     end
+    clean
     puts "\n\nThat is not a valid answer!"
   end
 end
@@ -93,24 +111,33 @@ end
 
 def q_play_with_robots(characters)
   clean
-  message = "You look around the table and see some familiar faces.\n\n\n\n"
+  message = "You look around the table and see some familiar faces. Who would you like to play with?\n\n\n\n"
   characters.each_with_index do |character,_i|
     message += "[#{_i+1}] #{character.name}  (#{character.description})\n\n#{character.flavor_text}\n\n\n\n"
   end
-  message += "\n\nWho would you like to play with?\n\n<Or type [0] to move on.>  "
+  message += "\t\tTYPE THE NUMBER OF THE PERSON YOU'D LIKE TO PLAY WITH. \n\n\t\tTYPE ZERO [0] IF YOU DON'T WANT TO PLAY WITH ANYONE ELSE\n\n\n\n"
   loop do
     print message
-    response = Integer(gets.chomp)
-    if response <= 0
-      return nil
+    begin
+      response = Integer(gets.chomp)
+      if response > characters.length || response < 0
+        clean
+        puts "That's not a valid answer"
+        gets
+        clean
+      elsif response == 0
+        return nil
+      else
+        return response
+      end
+    rescue ArgumentError
+      clean
+      puts "That's not a valid answer"
+      gets
+      clean
     end
-    selection = characters.delete_at(response-1)
-    print "\n\nYou see your old friend, #{selection.name}"
-    gets
-    return selection
   end
 end
-
 
 def q_shoe_size
   clean
@@ -120,7 +147,7 @@ def q_shoe_size
     if answer == ""
       return 1
     end
-    answer = Integer(answer)
+    answer = float_of_2_decimal(answer)
     if answer < 0
       return -answer
     elsif answer > 5
@@ -141,7 +168,7 @@ def q_number_of_humans
     answer = gets.chomp
 
     return 1 if answer == ""
-    answer = answer.to_i
+    answer = float_of_2_decimal(answer)
     if answer > 4
       puts "\n\nThe maximum is seven."
       return 4
@@ -149,7 +176,7 @@ def q_number_of_humans
       puts "\n\nThe minimum is one."
       return 1
     else
-      return answer
+      return answer.to_i
     end
   end
 end
@@ -162,8 +189,8 @@ def q_money(name)
     answer = gets.chomp
 
     return 10 * $ante_size if answer == ""
-    # answer = Integer(gets.chomp)
-    answer = answer.to_i
+    # answer = float_of_2_decimal(gets.chomp)
+    answer = float_of_2_decimal(answer)
     if answer < $ante_size * 10
       puts "\n\nYou need at least $#{$ante_size * 10} if you're going to have any fun"
       return $ante_size * 10
@@ -322,8 +349,8 @@ def q_max_split_hands
     answer = gets.chomp
 
     return 4 if answer == ""
-    # answer = Integer(gets.chomp)
-    answer = answer.to_i
+    # answer = float_of_2_decimal(gets.chomp)
+    answer = float_of_2_decimal(answer)
     if answer > 4
       puts "\n\nThe maximum is 4."
       return 4
@@ -331,7 +358,7 @@ def q_max_split_hands
       puts "\n\nThe minimum is 1."
       return 1
     else
-      return answer
+      return answer.to_i
     end
   end
 end
@@ -343,7 +370,7 @@ def q_ante_size
     answer = gets.chomp
 
     return 10 if answer == ""
-    answer = answer.to_i
+    answer = float_of_2_decimal(answer)
     if answer > 1000
       puts "\n\nThe maximum is 1000."
       return 4
