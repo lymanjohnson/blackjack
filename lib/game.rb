@@ -21,6 +21,7 @@ class Game
   end
 
   def add_rules
+    q_shoe_size
     $quick_start = q_quick_start
     if $quick_start == false
       $number_of_humans = q_number_of_humans

@@ -94,21 +94,6 @@ def q_make_decision(options,hand_index,possessive)
   end
 end
 
-# def q_play_with_robots
-#   clean
-#     loop do
-#     print "Do you want to play with the MST3K Robots? [y/n] "
-#     answer = gets.chomp.downcase
-#
-#     if answer[0] == "y"
-#       return true
-#     elsif answer[0] == "n" || answer == ""
-#       return false
-#     end
-#     puts "\n\nThat is not a valid answer!"
-#   end
-# end
-
 def q_play_with_robots(characters)
   clean
   message = "You look around the table and see some familiar faces. Who would you like to play with?\n\n\n\n"
@@ -142,22 +127,26 @@ end
 def q_shoe_size
   clean
     loop do
-    print "How many decks do you want to play with? [1-5]  "
+    print "\n\nHow many decks do you want to play with? [1-5]  "
     answer = gets.chomp
     if answer == ""
       return 1
     end
-    answer = float_of_2_decimal(answer)
-    if answer < 0
-      return -answer
-    elsif answer > 5
-      puts "\n\nThat's too many decks."
-    elsif answer == 0
-      puts "\n\nYou need at least one deck."
+    answer = answer.to_i
+    if answer > 5
+      clean
+      # puts "\nThat's too many decks. You'll play with five decks."
+      # gets
+      # return 5
+    elsif answer <= 0
+      clean
+      # puts "\nYou need at least one deck. You'll play with one deck."
+      # gets
+      # return 1
     else
       return answer
     end
-    # puts "\n\nThat is not a valid answer!"
+    puts "That is not a valid answer!"
   end
 end
 
