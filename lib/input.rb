@@ -353,8 +353,12 @@ end
 def q_insurance(name,wager)
     loop do
       status_bar
-      puts "Does #{name} want insurance? Put down #{'%.2f' % (@wager/2)} to buy insurance.
-      Get #{@wager} back if dealer reveals a blackjack. [y/n]"
+      if name = "You"
+        puts "Do you want insurance? Put down #{'%.2f' % (@wager/2)} to buy insurance.\n"
+      else
+        puts "Does #{name} want insurance? Put down #{'%.2f' % (@wager/2)} to buy insurance.\n"
+      end
+      puts "Get #{@wager} back if dealer reveals a blackjack. [y/n]"
     answer = gets.chomp.downcase
 
     if answer[0] == "y" || answer == ""

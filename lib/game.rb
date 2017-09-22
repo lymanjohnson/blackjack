@@ -4,6 +4,7 @@ class Game
   attr_accessor :on, :play_round , :stop_game
 
   def initialize
+
     @on = true
     $deck = Deck.new(1)
     $resplit_aces = true
@@ -105,6 +106,7 @@ class Game
 
   def play_round
     # First ask if each player wants to play this round
+
     $show_dealers_cards_now = false
     status_bar if $game_count > 1
     message = "\nThe dealer is ready to play. "
@@ -118,11 +120,13 @@ class Game
 
     # Then deal the dealer
     $dealer.new_hand
+    binding.pry
 
     # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?
       puts 'Dealer showing an ace. Do you want insurance?'
       $players.each do |player|
+        status_bar
         player.insurance?
       end
     end

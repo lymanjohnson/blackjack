@@ -107,7 +107,7 @@ class Player
     @hands.each_with_index do |hand, _i|
       hand.define_options
       until hand.im_done
-        puts "#{possessive} Hand ##{_i+1}: #{hand}"
+        # puts "#{possessive} Hand ##{_i+1}: #{hand}"
         # puts "Score: #{hand.score}\t Wager: #{hand.wager}"
         choice = make_decision(hand.options,_i)
         choice_handler(hand, _i, choice)
@@ -117,7 +117,7 @@ class Player
       puts "Dealer hit blackjack!" if $dealer_hand.score == :blackjack
       puts "#{possessive} Hand ##{_i+1} Finished \n\nPress <enter> to continue"
       gets
-      puts "\nNext Hand\n\n" unless @hands[_i + 1].nil?
+      # puts "\nNext Hand\n\n" unless @hands[_i + 1].nil?
     end
   end
 
@@ -169,6 +169,7 @@ class Randomplayer < Player
   end
 
   def insurance?
+    puts "The dealer is showing an ace. Each player can buy insurance for half their wager. If dealer reveals a blackjack the player will get all of their wager back.\n\n"
     if @money > @wager/2 && rand(2) == 1
       @insurance = @wager / 2
       @money -= @insurance
@@ -218,6 +219,7 @@ class Roboplayer < Player
   end
 
   def insurance?
+    puts "The dealer is showing an ace. Each player can buy insurance for half their wager. If dealer reveals a blackjack the player will get all of their wager back.\n\n"
     @insurance = 0
     puts "#{name} does not buy insurance"
     gets
