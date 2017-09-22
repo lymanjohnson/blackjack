@@ -41,7 +41,12 @@ class Deck
   end
 
   def shuffle?
-    @discards.length * 4 > @cards.length
+    $shuffle_every_turn || @discards.length * 4 > @cards.length
+    # if $shuffle_every_turn
+    #   return true
+    # else
+    #   @discards.length * 4 > @cards.length
+    # end
   end
 
   def shuffle

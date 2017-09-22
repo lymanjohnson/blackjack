@@ -1,4 +1,3 @@
-require 'pry'
 
 class Player
   attr_accessor :cards, :hands, :money, :player_id, :name, :starting_money , :insurance, :ante_modifier, :flavor_text, :wager
@@ -242,23 +241,17 @@ class Psychicplayer < Roboplayer
     end
     array.push($deck.cards[0])
     virtual_hand = Hand.new(array)
-    #binding.pry
     if @hands[hand_index] == :blackjack || @hands[hand_index] > virtual_hand
       choice = :stand
     elsif (virtual_hand == :blackjack || virtual_hand > 20) && options.include?(:double)
       choice = :double
-      #binding.pry
     elsif virtual_hand == :bust
       choice = :stand
-      #binding.pry
     elsif options.include?(:split)
       choice = :split
-      #binding.pry
     else
       choice = :hit
-      #binding.pry
     end
-    #binding.pry
     status_bar
     puts "#{name} decided to #{choice.to_s.downcase.tr(":","")}"
     gets

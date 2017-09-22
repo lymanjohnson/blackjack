@@ -19,6 +19,7 @@ class Game
     $players = []
     $discards_visible = true
     $show_dealers_cards_now = false
+    $shuffle_every_turn = false
 
     # These variables are the max that the player is allowed to set in custom rules
     $max_allowable_decks = 5
@@ -53,6 +54,7 @@ class Game
 
   def custom_rules
     $deck = Deck.new(q_shoe_size)
+    $shuffle_every_turn = q_shuffle_every_turn
     $ante_size = q_ante_size
     $resplit_aces = q_resplit_aces
     $double_after_split = q_double_after_split
@@ -120,7 +122,6 @@ class Game
 
     # Then deal the dealer
     $dealer.new_hand
-    binding.pry
 
     # If the dealer shows an ace, ask everyone if they want insurance
     if $dealer.insurance?

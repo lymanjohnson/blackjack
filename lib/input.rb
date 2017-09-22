@@ -9,6 +9,22 @@ def float_of_2_decimal(answer)
   end
 end
 
+def q_shuffle_every_turn
+    loop do
+    clean
+    print "Shuffle every round? If not, the dealer will shuffle once he is more than 20% the way through the shoe. [y/n]  "
+    answer = gets.chomp.downcase
+    if answer[0] == "y" || answer == ""
+      return true
+    elsif answer[0] == "n"
+      return false
+    end
+    clean
+    puts "That is not a valid answer!"
+    gets
+  end
+end
+
 
 def q_quick_start
     loop do
