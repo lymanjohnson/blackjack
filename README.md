@@ -11,7 +11,7 @@
 
 ### AI Support
 - There are other gamblers waiting for you at the table!
-  - Eddie: a gambling addict on tilt who bets big and isn't happy until he's got a 19 or higher
-  - The Duchess: an rich old lady who plays conservatively but bets huge
-  - Tommy, Robbie, and Jason: three kids in a trenchcoat who have snuck in to play. They have no idea what they're doing, act randomly, and bet wildly.
+  - Eddie: A gambling addict on tilt who bets big and isn't happy until he's got a 19 or higher
+  - The Duchess: A rich old lady who plays conservatively but bets huge
+  - Tommy, Robbie, and Jason: Three kids in a trench coat who have snuck in to play. They have no idea what they're doing, act randomly, and bet wildly.
   - Dougie Jones: Compulsive gambler and philandering husband, or former FBI agent and Tibetan zen master? Who can really say. Either way, his friends from the Black Lodge help him see what the next card is. Serve up some cherry pie and put on the coffee, boys, 'cause it's going to be a long night. You'll never see him bust, and he only doubles when he's sure he's going to get a 20 or higher.
