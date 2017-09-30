@@ -134,12 +134,12 @@ def q_play_with_robots(characters)
     return nil if response == "" || response[0].downcase == "n" || response[0] == " "
     begin
       response = Integer(response)
-      if response > characters.length || response < characters.length
+      if response > characters.length || response <= 0
         clean
         puts "That's not a valid answer"
         gets
       else
-        return response
+        return characters.delete_at(response-1)
       end
     rescue ArgumentError
       clean

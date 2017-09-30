@@ -1,13 +1,15 @@
-*Blackjack*
+## Blackjack Console Game
+
+### Special Features
 - Visual interface shows all player's current cards, scores, wagers, and wallets.
 - Supports all major casino house rules, with option to turn them off individually
 - Supports all player actions (hit, stand, double, or split)
 - Quick start option if you want to jump straight to a default game
 
-*Multiplayer*
+### Multiplayer
 - Up to 4 human players can play at once, as well as multiple computer players
 
-*AI Support*
+### AI Support
 - There are other gamblers waiting for you at the table!
   - Eddie: a gambling addict on tilt who bets big and isn't happy until he's got a 19 or higher
   - The Duchess: an rich old lady who plays conservatively but bets huge
